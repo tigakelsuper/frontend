@@ -11,13 +11,6 @@ import ImageIcon from '@material-ui/icons/Image';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SettingsIcon from '@material-ui/icons/Settings';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import DirectionCarIcon from '@material-ui/icons/DirectionsCar';
-import FastfoodIcon from '@material-ui/icons/Fastfood';
-import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
-import AssessmentIcon from '@material-ui/icons/Assessment';
-import LayersIcon from '@material-ui/icons/Layers';
-
-
 
 import { Profile, SidebarNav, UpgradePlan } from './components';
 
@@ -56,29 +49,39 @@ const Sidebar = props => {
       icon: <DashboardIcon />
     },
     {
-      title: 'Inventory',
+      title: 'Users',
       href: '/users',
-      icon: <LayersIcon />
+      icon: <PeopleIcon />
     },
     {
-      title: 'Ruang Meeting',
+      title: 'Products',
       href: '/products',
-      icon: <MeetingRoomIcon />
+      icon: <ShoppingBasketIcon />
     },
     {
-      title: 'Catering',
+      title: 'Authentication',
       href: '/sign-in',
-      icon: <FastfoodIcon />
+      icon: <LockOpenIcon />
     },
     {
-      title: 'Pemesanan Mobil',
+      title: 'Typography',
       href: '/typography',
-      icon: <DirectionCarIcon />
+      icon: <TextFieldsIcon />
     },
     {
-      title: 'Laporan',
+      title: 'Icons',
       href: '/icons',
-      icon: <AssessmentIcon />
+      icon: <ImageIcon />
+    },
+    {
+      title: 'Account',
+      href: '/account',
+      icon: <AccountBoxIcon />
+    },
+    {
+      title: 'Settings',
+      href: '/settings',
+      icon: <SettingsIcon />
     }
   ];
 
