@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React,  { useState, useEffect }  from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -20,6 +20,7 @@ import {
 } from '@material-ui/core';
 
 import { getInitials } from 'helpers';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -41,8 +42,38 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+function useHttpListCall(url) {
+  const [list, setData] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  React.useEffect(() => {
+    axios
+      .get(url)
+      .then(function(response) {
+        setData(response.data);
+      })
+      .catch(function(error) {
+        setError(error);
+      });
+  }, [url]);
+  return { list, error };
+}
+
 const MyTable = props => {
   const { className, users, ...rest } = props;
+
+  const [modalShow, setModalShow] = React.useState(false);
+  const [endpoint, setEndpoint] = React.useState(null);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios(
+        'http://localhost:3000/pemesanan-mobils',
+      );
+      setData(result.data);
+    };
+    fetchData();
+  }, []);
 
   const classes = useStyles();
 
@@ -93,6 +124,7 @@ const MyTable = props => {
   };
 
   return (
+    
     <Card
       {...rest}
       className={clsx(classes.root, className)}
@@ -122,35 +154,34 @@ const MyTable = props => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users.slice(0, rowsPerPage).map(user => (
+                {data.slice(0, rowsPerPage).map(dt => (
                   <TableRow
                     className={classes.tableRow}
                     hover
-                    key={user.id}
-                    selected={selectedUsers.indexOf(user.id) !== -1}
+                    key={dt.id}
+                    selected={selectedUsers.indexOf(dt.id) !== -1}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
-                        checked={selectedUsers.indexOf(user.id) !== -1}
+                        checked={selectedUsers.indexOf(dt.id) !== -1}
                         color="primary"
-                        onChange={event => handleSelectOne(event, user.id)}
+                        onChange={event => handleSelectOne(event, dt.id)}
                         value="true"
                       />
                     </TableCell>
                     <TableCell>
                       <div className={classes.nameContainer}>
                      
-                        <Typography variant="body1">{user.name}</Typography>
+                        <Typography variant="body1"> {moment(dt.tanggal_pemesanan).format('DD/MM/YYYY')}</Typography>
                       </div>
                     </TableCell>
-                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{dt.tipe_pemesanan}</TableCell>
                     <TableCell>
-                      {user.address.city}, {user.address.state},{' '}
-                      {user.address.country}
+                      {dt.tipe_pemesanan}
                     </TableCell>
-                    <TableCell>{user.phone}</TableCell>
+                    <TableCell>{dt.tipe_pemesanan}</TableCell>
                     <TableCell>
-                      {moment(user.createdAt).format('DD/MM/YYYY')}
+                         {dt.keterangan}
                     </TableCell>
                   </TableRow>
                 ))}
