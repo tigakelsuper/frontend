@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Button } from '@material-ui/core';
 
 import { SearchInput } from 'components';
+import { withRouter } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -29,9 +30,24 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const MyToolbar = props => {
-  const { className, ...rest } = props;
+  const { className,history, ...rest } = props;
+
 
   const classes = useStyles();
+
+  const gotoForm = () => {
+    history.push("/pemesanan-mobil/tambah");
+  };
+
+  const MyButton = withRouter(({ history }) => (
+    <Button
+       color="primary"
+          variant="contained"
+      onClick={() => { history.push('/pemesanan-mobil/tambah') }}
+    >
+     Tambah Pemesanan
+    </Button>
+  ))
 
   return (
     <div
@@ -41,12 +57,10 @@ const MyToolbar = props => {
       <div className={classes.row}>
         <span className={classes.spacer} />
        
-        <Button
-          color="primary"
-          variant="contained"
+        <MyButton
         >
-          Tambah Pemesanan
-        </Button>
+         
+        </MyButton>
       </div>
       <div className={classes.row}>
         <SearchInput
@@ -59,6 +73,7 @@ const MyToolbar = props => {
 };
 
 MyToolbar.propTypes = {
+  history:PropTypes.any,
   className: PropTypes.string
 };
 

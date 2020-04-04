@@ -15,7 +15,8 @@ import {
   SignUp as SignUpView,
   SignIn as SignInView,
   NotFound as NotFoundView,
-  PemesananMobil as PemesananMobilView
+  PemesananMobil as PemesananMobilView,
+  PemesananMobilForm as PemesananMobilFormView,
 } from './views';
 
 const Routes = () => {
@@ -56,6 +57,12 @@ const Routes = () => {
         layout={MainLayout}
         path="/pemesanan-mobil"
       />
+       <RouteWithLayout
+        component={PemesananMobilFormView}
+        exact
+        layout={MainLayout}
+        path="/pemesanan-mobil/tambah"
+      />
       <RouteWithLayout
         component={AccountView}
         exact
@@ -79,6 +86,12 @@ const Routes = () => {
         exact
         layout={MinimalLayout}
         path="/sign-in"
+      />
+       <RouteWithLayout
+        component={AccountView}
+        exact
+        layout={MainLayout}
+        path="/contoh-form"
       />
       <RouteWithLayout
         component={NotFoundView}
