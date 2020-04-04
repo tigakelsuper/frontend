@@ -35,31 +35,31 @@ const Routes = () => {
         component={UserListView}
         exact
         layout={MainLayout}
-        path="/users"
+        path="/inventory"
       />
       <RouteWithLayout
         component={ProductListView}
         exact
         layout={MainLayout}
-        path="/products"
+        path="/ruang-meeting"
       />
       <RouteWithLayout
         component={TypographyView}
         exact
         layout={MainLayout}
-        path="/typography"
+        path="/catering"
       />
       <RouteWithLayout
         component={IconsView}
         exact
         layout={MainLayout}
-        path="/icons"
+        path="/pemesanan-mobil"
       />
       <RouteWithLayout
         component={AccountView}
         exact
         layout={MainLayout}
-        path="/account"
+        path="/laporan"
       />
       <RouteWithLayout
         component={SettingsView}

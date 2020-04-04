@@ -57,27 +57,27 @@ const Sidebar = props => {
     },
     {
       title: 'Inventory',
-      href: '/users',
+      href: '/inventory',
       icon: <LayersIcon />
     },
     {
       title: 'Ruang Meeting',
-      href: '/products',
+      href: '/ruang-meeting',
       icon: <MeetingRoomIcon />
     },
     {
       title: 'Catering',
-      href: '/sign-in',
+      href: '/catering',
       icon: <FastfoodIcon />
     },
     {
       title: 'Pemesanan Mobil',
-      href: '/typography',
+      href: '/pemesanan-mobil',
       icon: <DirectionCarIcon />
     },
     {
       title: 'Laporan',
-      href: '/icons',
+      href: '/laporan',
       icon: <AssessmentIcon />
     }
   ];
