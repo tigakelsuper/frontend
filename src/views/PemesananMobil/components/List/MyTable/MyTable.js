@@ -16,11 +16,19 @@ import {
   TableHead,
   TableRow,
   Typography,
-  TablePagination
+  TablePagination,
+  Button,
+
 } from '@material-ui/core';
 
 import { getInitials } from 'helpers';
 import axios from 'axios';
+import {getUserInfoFromToken} from './../../../../../mymixin/mymixin';
+import {isAtasanPegawai,isHCO} from './../../../../../hakakses/hakakses';
+import { useAuth } from "./../../../../../auth/auth";
+import { withRouter } from 'react-router-dom'
+import MySelectSupir from './../MySelectSupir';
+
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -58,12 +66,32 @@ function useHttpListCall(url) {
   return { list, error };
 }
 
+const selectSupirData = [
+  {
+    value: '',
+    label: ''
+  },
+  {
+    value: 'Wahyu',
+    label: 'Wahyu'
+  },
+  {
+    value: 'Doni',
+    label: 'Doni'
+  },
+];
+
+
+
+
+
 const MyTable = props => {
   const { className, users, ...rest } = props;
 
   const [modalShow, setModalShow] = React.useState(false);
   const [endpoint, setEndpoint] = React.useState(null);
   const [data, setData] = useState([]);
+  const { authTokens } = useAuth();
 
   useEffect(() => {
     const params = {
@@ -137,7 +165,56 @@ const MyTable = props => {
     setRowsPerPage(event.target.value);
   };
 
+  const userInfo = getUserInfoFromToken(authTokens);
+  const {name} = userInfo;
+  const showApproveButton = isAtasanPegawai(name);
+  const showSelectSupir = isHCO(name);
+
+  const MyButton = withRouter(({ history }) => (
+    <Button
+       color="primary"
+          variant="contained"
+      onClick={() => { history.push('/pemesanan-mobil/') }}
+    >
+     Approve
+    </Button>
+  ))
+
+
+ 
+
+
+ 
+
+  // const selectSupir = () => (
+  
+  //     <div>
+  //       Hello
+  //     </div>
+  //     <FormControl variant="filled">
+  //     <InputLabel id="demo-simple-select-filled-label">Age</InputLabel>
+  //     <Select
+  //       labelId="demo-simple-select-filled-label"
+  //       id="demo-simple-select-filled"
+  //       value = {age}
+  //       onChange={handleChange}
+  //     >
+  //       <MenuItem value="">
+  //         <em>None</em>
+  //       </MenuItem>
+  //       <MenuItem value={10}>Ten</MenuItem>
+  //       <MenuItem value={20}>Twenty</MenuItem>
+  //       <MenuItem value={30}>Thirty</MenuItem>
+  //     </Select>
+  //   </FormControl>
+     
+  //   )
+  
+  
+
   return (
+
+   
     
     <Card
       {...rest}
@@ -161,10 +238,12 @@ const MyTable = props => {
                     />
                   </TableCell>
                   <TableCell>Tanggal Pemesanan</TableCell>
+                  <TableCell>Status</TableCell>
                   <TableCell>Pemesan</TableCell>
                   <TableCell>Tipe Pemesanan</TableCell>
                   <TableCell>Mobil</TableCell>
                   <TableCell>Keterangan</TableCell>
+                  <TableCell>&nbsp;</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -189,6 +268,9 @@ const MyTable = props => {
                         <Typography variant="body1"> {moment(dt.tanggal_pemesanan).format('DD/MM/YYYY')}</Typography>
                       </div>
                     </TableCell>
+                    <TableCell>
+                      {dt.status_pemesanan}
+                    </TableCell>
                     <TableCell>{dt.user?dt.user.username:''}</TableCell>
                     <TableCell>
                       {dt.tipe_pemesanan}
@@ -196,6 +278,19 @@ const MyTable = props => {
                     <TableCell>{dt.mobil?dt.mobil.tipe_mobil:''}</TableCell>
                     <TableCell>
                          {dt.keterangan}
+                    </TableCell>
+                    <TableCell>
+                         { (showApproveButton  && dt.status_pemesanan==='submitted')?(
+                            <MyButton />
+                           
+                         ):(
+                          <div></div>
+                         )}
+                          { (showSelectSupir && dt.status_pemesanan==='approved')?(
+                           <MySelectSupir />
+                         ):(
+                          <div></div>
+                         )}
                     </TableCell>
                   </TableRow>
                 ))}
