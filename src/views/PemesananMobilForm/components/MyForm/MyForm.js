@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
@@ -10,11 +10,18 @@ import {
   Divider,
   Grid,
   Button,
-  TextField
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel
 } from '@material-ui/core';
 import axios from 'axios';
 import Modal from '@material-ui/core/Modal';
 import { withRouter } from 'react-router-dom'
+import moment from 'moment'
+import decode from 'jwt-decode';
+import { useAuth } from "./../../../../auth/auth";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -45,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MyForm = props => {
   const { className, ...rest } = props;
+  const { authTokens } = useAuth();
 
   const classes = useStyles();
 
@@ -54,8 +62,13 @@ const MyForm = props => {
     email: '',
     phone: '',
     state: '',
-    country: 'USA'
+    country: 'USA',
+    mobil: '',
+    tipePemesanan:'',
+    tanggalPemesanan:moment().format("YYYY-MM-DD")
   });
+
+  const [dataMobil, setDataMobil] = React.useState([]);
 
   const handleChange = event => {
     setValues({
@@ -79,6 +92,21 @@ const MyForm = props => {
     }
   ];
 
+  const tipePemesanans = [
+    {
+      value: '',
+      label: ''
+    },
+    {
+      value: 'dinas',
+      label: 'Dinas'
+    },
+    {
+      value: 'ekpedisi',
+      label: 'Ekpedisi Barang'
+    },
+  ];
+
   const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
 
 
@@ -87,14 +115,23 @@ const MyForm = props => {
   };
 
   const simpan = async (history) =>  {
-   
-   
-    
+ 
+    console.log(authTokens);
+
+    var re = /"(.*?)"/g;
+
+var myArray = authTokens.match(re);
+var token = myArray[0].replace(/\"/g,"");
+const userInfo = decode(token);
+
+  
     try {
       const response = await axios.post('http://localhost:3000/pemesanan-mobils', {
-        tanggal_pemesanan: "2020-04-04T17:36:57.944Z",
-        tipe_pemesanan: "string",
-        keterangan: "string"
+        tanggal_pemesanan: moment(values.tanggalPemesanan).format(),
+        tipe_pemesanan: values.tipePemesanan,
+        keterangan: values.keterangan,
+        mobilId:values.mobil,
+        userId:parseInt(userInfo.id)
       });
       console.log(' Returned data:', response);
       handleOpen();
@@ -135,6 +172,17 @@ const MyForm = props => {
           </Button>
   ))
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios(
+        'http://localhost:3000/mobils',
+      );
+      
+      setDataMobil([{nomor_polisi:'',tipe_mobil:''}].concat(result.data));
+    };
+    fetchData();
+  }, []);
+
 
   return (
     <Card
@@ -162,15 +210,52 @@ const MyForm = props => {
             >
               <TextField
                 fullWidth
-                helperText="Silahkan input tanggal"
+                readOnly = {true}
                 label="Tanggal Pemesanan"
                 margin="dense"
-                name="firstName"
+                name="tanggal_pemesanan"
+                type="date"
+                onChange={handleChange}
+                defaultValue="2020-04-04"
+                required
+                value={values.tanggalPemesanan}
+                variant="outlined"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid
+              item
+              md={12}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                label="Tipe pemesanan"
+                margin="dense"
+                name="tipePemesanan"
                 onChange={handleChange}
                 required
-                value={values.firstName}
+                select
+                // eslint-disable-next-line react/jsx-sort-props
+                SelectProps={{ native: true }}
+                value={values.tipePemesanan}
                 variant="outlined"
-              />
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              >
+                {tipePemesanans.map(option => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </TextField>
             </Grid>
            
             <Grid
@@ -182,12 +267,27 @@ const MyForm = props => {
                 fullWidth
                 label="Mobil"
                 margin="dense"
-                name="email"
+                name="mobil"
                 onChange={handleChange}
                 required
-                value={values.email}
+                select
+                // eslint-disable-next-line react/jsx-sort-props
+                SelectProps={{ native: true }}
+                value={values.mobil}
                 variant="outlined"
-              />
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              >
+                {dataMobil.map(option => (
+                  <option
+                    key={option.nomor_polisi}
+                    value={option.nomor_polisi}
+                  >
+                    {option.tipe_mobil} - {option.nomor_polisi}
+                  </option>
+                ))}
+              </TextField>
             </Grid>
             
             <Grid
@@ -200,10 +300,10 @@ const MyForm = props => {
           
                 label="Keterangan"
                 margin="dense"
-                name="firstName"
+                name="keterangan"
                 onChange={handleChange}
                 required
-                value={values.firstName}
+                value={values.keterangan}
                 variant="outlined"
               />
             </Grid>

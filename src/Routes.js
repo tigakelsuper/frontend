@@ -53,13 +53,13 @@ const Routes = () => {
         layout={MainLayout}
         path="/catering"
       />
-      <RouteWithLayout
+      <PrivateRouteWithLayout
         component={PemesananMobilView}
         exact
         layout={MainLayout}
         path="/pemesanan-mobil"
       />
-       <RouteWithLayout
+       <PrivateRouteWithLayout
         component={PemesananMobilFormView}
         exact
         layout={MainLayout}
@@ -101,12 +101,7 @@ const Routes = () => {
         layout={MinimalLayout}
         path="/not-found"
       />
-      <PrivateRouteWithLayout
-        component={AccountView}
-        exact
-        layout={MainLayout}
-        path="/test"
-      />
+    
       <Redirect to="/not-found" />
     </Switch>
   );

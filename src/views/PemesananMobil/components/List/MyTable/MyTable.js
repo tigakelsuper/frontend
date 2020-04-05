@@ -66,10 +66,24 @@ const MyTable = props => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    const params = {
+      include: [
+        {
+          relation: "user"
+        
+        },
+     {
+          relation: "mobil"
+        }
+      ]
+    };
+
     const fetchData = async () => {
-      const result = await axios(
-        'http://localhost:3000/pemesanan-mobils',
-      );
+      const result = await axios({
+        method: "get",
+        url: `http://localhost:3000/pemesanan-mobils?filter=${JSON.stringify(params)}`,
+       
+      });
       setData(result.data);
     };
     fetchData();
@@ -175,11 +189,11 @@ const MyTable = props => {
                         <Typography variant="body1"> {moment(dt.tanggal_pemesanan).format('DD/MM/YYYY')}</Typography>
                       </div>
                     </TableCell>
-                    <TableCell>{dt.tipe_pemesanan}</TableCell>
+                    <TableCell>{dt.user?dt.user.username:''}</TableCell>
                     <TableCell>
                       {dt.tipe_pemesanan}
                     </TableCell>
-                    <TableCell>{dt.tipe_pemesanan}</TableCell>
+                    <TableCell>{dt.mobil?dt.mobil.tipe_mobil:''}</TableCell>
                     <TableCell>
                          {dt.keterangan}
                     </TableCell>
