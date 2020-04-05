@@ -91,6 +91,7 @@ const MyTable = props => {
   const [modalShow, setModalShow] = React.useState(false);
   const [endpoint, setEndpoint] = React.useState(null);
   const [data, setData] = useState([]);
+  const [dataSupir, setDataSupir] = useState([]);
   const { authTokens } = useAuth();
 
   useEffect(() => {
@@ -102,6 +103,9 @@ const MyTable = props => {
         },
      {
           relation: "mobil"
+        },
+        {
+          relation: "supir"
         }
       ]
     };
@@ -113,6 +117,25 @@ const MyTable = props => {
        
       });
       setData(result.data);
+    };
+    fetchData();
+  }, []);
+
+  const supirParams = {
+    where: {
+        status_tersedia:"tersedia"
+      }
+    };
+
+  useEffect(() => {
+    const fetchData = async () => {
+    //  const result = await axios(`http://localhost:3000/supirs`);
+    const result = await axios({
+      method: "get",
+      url: `http://localhost:3000/supirs?filter=${JSON.stringify(supirParams)}`,
+     
+    })
+      setDataSupir(result.data);
     };
     fetchData();
   }, []);
@@ -170,11 +193,31 @@ const MyTable = props => {
   const showApproveButton = isAtasanPegawai(name);
   const showSelectSupir = isHCO(name);
 
-  const MyButton = withRouter(({ history }) => (
+
+  const approvePemesanan = async (history,datapemesanan) =>  {
+ 
+ 
+    try {
+      const response = await axios.put(`http://localhost:3000/pemesanan-mobils/${datapemesanan.id}`, {
+        tanggal_pemesanan:datapemesanan.tanggal_pemesanan,
+tipe_pemesanan:datapemesanan.tipe_pemesanan,
+keterangan:datapemesanan.keterangan,
+status_pemesanan:'approved',
+userId:datapemesanan.user.id,
+mobilId:datapemesanan.mobil.nomor_polisi
+      });
+     
+      history.push('/pemesanan-mobil');
+    } catch (e) {
+      console.log(`Axios request failed: ${e}`);
+    }
+  };
+
+  const MyButton = withRouter(({ history,datapemesanan}) => (
     <Button
        color="primary"
           variant="contained"
-      onClick={() => { history.push('/pemesanan-mobil/') }}
+      onClick={() => { approvePemesanan(history,datapemesanan) }}
     >
      Approve
     </Button>
@@ -242,6 +285,7 @@ const MyTable = props => {
                   <TableCell>Pemesan</TableCell>
                   <TableCell>Tipe Pemesanan</TableCell>
                   <TableCell>Mobil</TableCell>
+                  <TableCell>Supir</TableCell>
                   <TableCell>Keterangan</TableCell>
                   <TableCell>&nbsp;</TableCell>
                 </TableRow>
@@ -276,18 +320,19 @@ const MyTable = props => {
                       {dt.tipe_pemesanan}
                     </TableCell>
                     <TableCell>{dt.mobil?dt.mobil.tipe_mobil:''}</TableCell>
+                    <TableCell>{dt.supir?dt.supir.nama:''}</TableCell>
                     <TableCell>
                          {dt.keterangan}
                     </TableCell>
                     <TableCell>
                          { (showApproveButton  && dt.status_pemesanan==='submitted')?(
-                            <MyButton />
+                            <MyButton datapemesanan={dt} />
                            
                          ):(
                           <div></div>
                          )}
                           { (showSelectSupir && dt.status_pemesanan==='approved')?(
-                           <MySelectSupir />
+                           <MySelectSupir datasupir={dataSupir} datapemesanan={dt} />
                          ):(
                           <div></div>
                          )}

@@ -10,6 +10,7 @@ import { Button,   TextField,
 
 import { SearchInput } from 'components';
 import { withRouter } from 'react-router-dom'
+import axios from 'axios'
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -34,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const MySelectSupir = props => {
-  const { className,history, ...rest } = props;
+  const { className,history,datasupir,datapemesanan, ...rest } = props;
 
 
   const classes = useStyles();
@@ -42,7 +43,29 @@ const MySelectSupir = props => {
   const [age, setAge] = React.useState('');
    
   const handleChange = (event) => {
+
     setAge(event.target.value);
+    updateSupir(history,event.target.value);
+  };
+
+  const updateSupir = async (history,supirId) =>  {
+ 
+ 
+    try {
+      const response = await axios.put(`http://localhost:3000/pemesanan-mobils/${datapemesanan.id}`, {
+        tanggal_pemesanan:datapemesanan.tanggal_pemesanan,
+tipe_pemesanan:datapemesanan.tipe_pemesanan,
+keterangan:datapemesanan.keterangan,
+status_pemesanan:'alocated',
+userId:datapemesanan.user.id,
+mobilId:datapemesanan.mobil.nomor_polisi,
+supirId:parseInt(supirId)
+      });
+     
+      history.push('/pemesanan-mobil');
+    } catch (e) {
+      console.log(`Axios request failed: ${e}`);
+    }
   };
 
   return (
@@ -57,9 +80,11 @@ const MySelectSupir = props => {
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {datasupir.map(item=>(
+               <MenuItem value={item.id}>{item.nama}</MenuItem>
+          ))}
+         
+         
         </Select>
       </FormControl>
   );
