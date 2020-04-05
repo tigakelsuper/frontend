@@ -4,6 +4,9 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Avatar, Typography } from '@material-ui/core';
+import { useAuth } from "./../../../../../../auth/auth";
+import { getProfile } from "./../../../../../../hakakses/hakakses";
+import {getUserInfoFromToken} from './../../../../../../mymixin/mymixin';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,13 +26,18 @@ const useStyles = makeStyles(theme => ({
 
 const Profile = props => {
   const { className, ...rest } = props;
+  const { authTokens } = useAuth();
 
   const classes = useStyles();
 
+  const userInfo = getUserInfoFromToken(authTokens);
+  const {name} = userInfo;
+  const profileInfo = getProfile(name);
+
   const user = {
-    name: 'Awan',
-    avatar: '/images/avatars/avatar_12.png',
-    bio: 'HCO Staff'
+    name: profileInfo.nickName,
+    avatar: `/images/avatars/${profileInfo.avatar}`,
+    bio: profileInfo.position
   };
 
   return (

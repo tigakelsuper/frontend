@@ -4,6 +4,24 @@ const roles = {
   hco: ['Jane']
 }
 
+const profiles = {
+  Jane : {
+    avatar:'avatar_12.png',
+    nickName:'Awan',
+    position:'HCO Staff'
+  },
+  Bob:{
+    avatar:'avatar_3.png',
+    nickName:'Budi',
+    position:'IT Manager'
+  },
+  John:{
+    avatar:'avatar_8.png',
+    nickName:'Ujang',
+    position:'IT Staff'
+  }
+}
+
 
 
 export function isPegawai(username){
@@ -26,3 +44,7 @@ export function isHCO(username){
   }
   return false;
 };
+
+export function getProfile(username){
+  return profiles[username];
+}
