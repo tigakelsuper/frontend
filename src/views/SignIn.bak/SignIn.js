@@ -14,8 +14,6 @@ import {
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
-import axios from 'axios';
-import { useAuth } from "../../auth/auth";
 
 const schema = {
   email: {
@@ -28,7 +26,6 @@ const schema = {
   password: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
-      minimum:8,
       maximum: 128
     }
   }
@@ -53,7 +50,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'url(/images/inventory-blue.png)',
+    backgroundImage: 'url(/images/auth.jpg)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center'
@@ -140,9 +137,6 @@ const SignIn = props => {
     errors: {}
   });
 
-  const [data, setData] = useState([]);
-  const { setAuthTokens } = useAuth();
-
   useEffect(() => {
     const errors = validate(formState.values, schema);
 
@@ -152,7 +146,6 @@ const SignIn = props => {
       errors: errors || {}
     }));
   }, [formState.values]);
-
 
   const handleBack = () => {
     history.goBack();
@@ -177,43 +170,9 @@ const SignIn = props => {
     }));
   };
 
-  const handleSignIn = async event => {
+  const handleSignIn = event => {
     event.preventDefault();
-
-    let token = null;
-
-
-      try{
-        const result = await axios.post(
-          'http://localhost:3000/users/login',
-          {
-            email: formState.values.email,
-            password: formState.values.password
-          }
-        );
-      //  console.log(result.data.token);
-       //  setAuthTokens(`{token:"${result.data.token}"}`);
-        // history.push('/');
-
-        token = result.data.token;
-
-      }catch(err){
-        alert("Email atau Password ada yang salah");
-        
-      }
-
-      if(token){
-        setAuthTokens(`{token:"${token}"}`);
-        history.push('/');
-      }
-      
-    //  setData(result.data);
- 
-
-   
-
-
-    
+    history.push('/');
   };
 
   const hasError = field =>
@@ -236,20 +195,21 @@ const SignIn = props => {
                 className={classes.quoteText}
                 variant="h1"
               >
-                Selamat datang di HCO System.
+                Hella narwhal Cosby sweater McSweeney's, salvia kitsch before
+                they sold out High Life.
               </Typography>
               <div className={classes.person}>
                 <Typography
                   className={classes.name}
                   variant="body1"
                 >
-                  Team 3 AKPSI 2019FC
+                  Takamaru Ayako
                 </Typography>
                 <Typography
                   className={classes.bio}
                   variant="body2"
                 >
-                  @2020
+                  Manager at inVision
                 </Typography>
               </div>
             </div>
@@ -263,7 +223,9 @@ const SignIn = props => {
         >
           <div className={classes.content}>
             <div className={classes.contentHeader}>
-              
+              <IconButton onClick={handleBack}>
+                <ArrowBackIcon />
+              </IconButton>
             </div>
             <div className={classes.contentBody}>
               <form
@@ -276,14 +238,37 @@ const SignIn = props => {
                 >
                   Sign in
                 </Typography>
-           
+                <Typography
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  Sign in with social media
+                </Typography>
                 <Grid
                   className={classes.socialButtons}
                   container
                   spacing={2}
                 >
                   <Grid item>
-                    
+                    <Button
+                      color="primary"
+                      onClick={handleSignIn}
+                      size="large"
+                      variant="contained"
+                    >
+                      <FacebookIcon className={classes.socialIcon} />
+                      Login with Facebook
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      onClick={handleSignIn}
+                      size="large"
+                      variant="contained"
+                    >
+                      <GoogleIcon className={classes.socialIcon} />
+                      Login with Google
+                    </Button>
                   </Grid>
                 </Grid>
                 <Typography
@@ -292,7 +277,7 @@ const SignIn = props => {
                   color="textSecondary"
                   variant="body1"
                 >
-                
+                  or login with email address
                 </Typography>
                 <TextField
                   className={classes.textField}
@@ -333,7 +318,19 @@ const SignIn = props => {
                 >
                   Sign in now
                 </Button>
-                
+                <Typography
+                  color="textSecondary"
+                  variant="body1"
+                >
+                  Don't have an account?{' '}
+                  <Link
+                    component={RouterLink}
+                    to="/sign-up"
+                    variant="h6"
+                  >
+                    Sign up
+                  </Link>
+                </Typography>
               </form>
             </div>
           </div>

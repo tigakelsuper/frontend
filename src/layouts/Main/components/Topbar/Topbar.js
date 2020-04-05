@@ -7,6 +7,8 @@ import { AppBar, Toolbar, Badge, Hidden, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
+import { useAuth } from "../../../../auth/auth";
+import { withRouter } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,11 +23,31 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Topbar = props => {
-  const { className, onSidebarOpen, ...rest } = props;
+  const { className, onSidebarOpen , ...rest } = props;
 
   const classes = useStyles();
 
   const [notifications] = useState([]);
+
+  const { setAuthTokens } = useAuth();
+
+  const MyLogoutButton = withRouter(({ history }) => (
+
+<IconButton
+className={classes.signOutButton}
+color="inherit"
+onClick={() => { 
+  setAuthTokens(null);
+  history.push('/sign-in');
+  }}
+>
+<InputIcon />
+</IconButton>
+
+
+  ));
+
+  
 
   return (
     <AppBar
@@ -50,12 +72,7 @@ const Topbar = props => {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton
-            className={classes.signOutButton}
-            color="inherit"
-          >
-            <InputIcon />
-          </IconButton>
+          <MyLogoutButton />
         </Hidden>
         <Hidden lgUp>
           <IconButton

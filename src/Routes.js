@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Redirect } from 'react-router-dom';
 
-import { RouteWithLayout } from './components';
+import { RouteWithLayout,PrivateRouteWithLayout } from './components';
 import { Main as MainLayout, Minimal as MinimalLayout } from './layouts';
 
 import {
@@ -18,6 +18,8 @@ import {
   PemesananMobil as PemesananMobilView,
   PemesananMobilForm as PemesananMobilFormView,
 } from './views';
+
+import PrivateRoute from './auth/PrivateRoute';
 
 const Routes = () => {
   return (
@@ -98,6 +100,12 @@ const Routes = () => {
         exact
         layout={MinimalLayout}
         path="/not-found"
+      />
+      <PrivateRouteWithLayout
+        component={AccountView}
+        exact
+        layout={MainLayout}
+        path="/test"
       />
       <Redirect to="/not-found" />
     </Switch>
