@@ -131,12 +131,14 @@ const userInfo = decode(token);
         tipe_pemesanan: values.tipePemesanan,
         keterangan: values.keterangan,
         mobilId:values.mobil,
-        userId:parseInt(userInfo.id)
+        userId:parseInt(userInfo.id),
+        status_pemesanan:'submitted',
       });
-      console.log(' Returned data:', response);
+     // console.log(' Returned data:', response);
       handleOpen();
       history.push('/pemesanan-mobil');
     } catch (e) {
+      alert("Terjadi kesalahan saat memproses permintaan Anda.");
       console.log(`Axios request failed: ${e}`);
     }
   };

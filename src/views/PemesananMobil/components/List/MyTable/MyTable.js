@@ -24,7 +24,7 @@ import {
 import { getInitials } from 'helpers';
 import axios from 'axios';
 import {getUserInfoFromToken} from './../../../../../mymixin/mymixin';
-import {isAtasanPegawai,isHCO} from './../../../../../hakakses/hakakses';
+import {isAtasanPegawai,isHCO,isPegawai} from './../../../../../hakakses/hakakses';
 import { useAuth } from "./../../../../../auth/auth";
 import { withRouter } from 'react-router-dom'
 import MySelectSupir from './../MySelectSupir';
@@ -192,34 +192,93 @@ const MyTable = props => {
   const {name} = userInfo;
   const showApproveButton = isAtasanPegawai(name);
   const showSelectSupir = isHCO(name);
+  const showCancelButton = isPegawai(name);
 
 
-  const approvePemesanan = async (history,datapemesanan) =>  {
+  const approvePemesanan = async (history,datapemesanan,dataIndex) =>  {
+
+    let {user,mobil,...updatedFields} = datapemesanan 
+    const pemesananForApprove = {
+      ...updatedFields,
+      status_pemesanan: 'approved',
+      userId : datapemesanan.user.id,
+      mobilId: datapemesanan.mobil.nomor_polisi
+    }
+
+    const approveForTable = {
+      ...datapemesanan,
+      status_pemesanan: 'approved',
+    }
+
+    const newData = [
+      ...data.slice(0,dataIndex),
+      approveForTable,
+      ...data.slice(dataIndex+1)
+
+    ];
  
  
     try {
-      const response = await axios.put(`http://localhost:3000/pemesanan-mobils/${datapemesanan.id}`, {
-        tanggal_pemesanan:datapemesanan.tanggal_pemesanan,
-tipe_pemesanan:datapemesanan.tipe_pemesanan,
-keterangan:datapemesanan.keterangan,
-status_pemesanan:'approved',
-userId:datapemesanan.user.id,
-mobilId:datapemesanan.mobil.nomor_polisi
-      });
-     
-      history.push('/pemesanan-mobil');
+      const response = await axios.put(`http://localhost:3000/pemesanan-mobils/${datapemesanan.id}`,pemesananForApprove);
+       alert("Pemesanan Mobil berhasil di setujui.");
+       setData(newData);
     } catch (e) {
       console.log(`Axios request failed: ${e}`);
     }
   };
 
-  const MyButton = withRouter(({ history,datapemesanan}) => (
+  const cancelPemesanan = async (history,datapemesanan,dataIndex) =>  {
+ 
+
+
+  
+    let {user,mobil,...updatedFields} = datapemesanan 
+    const pemesananForCancel = {
+      ...updatedFields,
+      status_pemesanan: 'cancelled',
+      userId : datapemesanan.user.id,
+      mobilId: datapemesanan.mobil.nomor_polisi
+    }
+
+    const cancelForTable = {
+      ...datapemesanan,
+      status_pemesanan: 'cancelled',
+    }
+
+    const newData = [
+      ...data.slice(0,dataIndex),
+      cancelForTable,
+      ...data.slice(dataIndex+1)
+
+    ];
+
+    try {
+      const response = await axios.put(`http://localhost:3000/pemesanan-mobils/${datapemesanan.id}`,pemesananForCancel);
+     
+      alert("Pemesanan berhasil dibatalkan.");
+      setData(newData);
+    } catch (e) {
+      console.log(`Axios request failed: ${e}`);
+    }
+  };
+
+  const MyButton = withRouter(({ history,datapemesanan,dataIndex}) => (
     <Button
        color="primary"
           variant="contained"
-      onClick={() => { approvePemesanan(history,datapemesanan) }}
+      onClick={() => { approvePemesanan(history,datapemesanan,dataIndex) }}
     >
      Approve
+    </Button>
+  ))
+
+  const MyCancelButton = withRouter(({ history,datapemesanan,dataIndex}) => (
+    <Button
+       color="secondary"
+          variant="contained"
+      onClick={() => { cancelPemesanan(history,datapemesanan,dataIndex) }}
+    >
+     Cancel
     </Button>
   ))
 
@@ -291,7 +350,7 @@ mobilId:datapemesanan.mobil.nomor_polisi
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.slice(0, rowsPerPage).map(dt => (
+                {data.slice(0, rowsPerPage).map( (dt,dataIndex) => (
                   <TableRow
                     className={classes.tableRow}
                     hover
@@ -325,14 +384,20 @@ mobilId:datapemesanan.mobil.nomor_polisi
                          {dt.keterangan}
                     </TableCell>
                     <TableCell>
+                    { (showCancelButton  && dt.status_pemesanan==='submitted')?(
+                            <MyCancelButton datapemesanan={dt} dataIndex={dataIndex} />
+                           
+                         ):(
+                          <div></div>
+                         )}
                          { (showApproveButton  && dt.status_pemesanan==='submitted')?(
-                            <MyButton datapemesanan={dt} />
+                            <MyButton datapemesanan={dt} dataIndex={dataIndex} />
                            
                          ):(
                           <div></div>
                          )}
                           { (showSelectSupir && dt.status_pemesanan==='approved')?(
-                           <MySelectSupir datasupir={dataSupir} datapemesanan={dt} />
+                           <MySelectSupir datasupir={dataSupir} datapemesanan={dt} dataIndex={dataIndex} parentSetData={setData} parentData={data} />
                          ):(
                           <div></div>
                          )}

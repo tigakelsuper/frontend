@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const MySelectSupir = props => {
-  const { className,history,datasupir,datapemesanan, ...rest } = props;
+  const { className,history,datasupir,datapemesanan,dataIndex,parentSetData,parentData, ...rest } = props;
 
 
   const classes = useStyles();
@@ -49,20 +49,39 @@ const MySelectSupir = props => {
   };
 
   const updateSupir = async (history,supirId) =>  {
+
+    let {user,mobil,...updatedFields} = datapemesanan 
+    const pemesananForAllocated = {
+      ...updatedFields,
+      status_pemesanan: 'allocated',
+      userId : datapemesanan.user.id,
+      mobilId: datapemesanan.mobil.nomor_polisi,
+      supirId:parseInt(supirId)
+    }
+
+    const selectedSupir = datasupir.find(({id})=>id===supirId);
+
+    const allocatedForTable = {
+      ...datapemesanan,
+      status_pemesanan: 'allocated',
+      supir: {id:parseInt(supirId),nama:selectedSupir.nama}
+    }
+
+    const newData = [
+      ...parentData.slice(0,dataIndex),
+      allocatedForTable,
+      ...parentData.slice(dataIndex+1)
+
+    ];
+
+
  
  
     try {
-      const response = await axios.put(`http://localhost:3000/pemesanan-mobils/${datapemesanan.id}`, {
-        tanggal_pemesanan:datapemesanan.tanggal_pemesanan,
-tipe_pemesanan:datapemesanan.tipe_pemesanan,
-keterangan:datapemesanan.keterangan,
-status_pemesanan:'alocated',
-userId:datapemesanan.user.id,
-mobilId:datapemesanan.mobil.nomor_polisi,
-supirId:parseInt(supirId)
-      });
+      const response = await axios.put(`http://localhost:3000/pemesanan-mobils/${datapemesanan.id}`,pemesananForAllocated);
      
-      history.push('/pemesanan-mobil');
+      alert('Pemesanan berhasil di alokasi ke supir.');
+      parentSetData(newData);
     } catch (e) {
       console.log(`Axios request failed: ${e}`);
     }
