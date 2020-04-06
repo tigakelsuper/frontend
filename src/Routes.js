@@ -29,25 +29,25 @@ const Routes = () => {
         from="/"
         to="/dashboard"
       />
-      <RouteWithLayout
+      <PrivateRouteWithLayout
         component={DashboardView}
         exact
         layout={MainLayout}
         path="/dashboard"
       />
-      <RouteWithLayout
+      <PrivateRouteWithLayout
         component={IconsView}
         exact
         layout={MainLayout}
         path="/inventory"
       />
-      <RouteWithLayout
+      <PrivateRouteWithLayout
         component={ProductListView}
         exact
         layout={MainLayout}
         path="/ruang-meeting"
       />
-      <RouteWithLayout
+      <PrivateRouteWithLayout
         component={TypographyView}
         exact
         layout={MainLayout}
@@ -65,7 +65,7 @@ const Routes = () => {
         layout={MainLayout}
         path="/pemesanan-mobil/tambah"
       />
-      <RouteWithLayout
+      <PrivateRouteWithLayout
         component={AccountView}
         exact
         layout={MainLayout}
