@@ -17,6 +17,8 @@ import {
   NotFound as NotFoundView,
   PemesananMobil as PemesananMobilView,
   PemesananMobilForm as PemesananMobilFormView,
+  ReservasiMeeting as ReservasiMeetingView,
+  ReservasiMeetingForm as ReservasiMeetingFormView
 } from './views';
 
 import PrivateRoute from './auth/PrivateRoute';
@@ -45,7 +47,19 @@ const Routes = () => {
         component={ProductListView}
         exact
         layout={MainLayout}
+        path="/tidak-dipakai-plv"
+      />
+      <PrivateRouteWithLayout
+        component={ReservasiMeetingView}
+        exact
+        layout={MainLayout}
         path="/ruang-meeting"
+      />
+       <PrivateRouteWithLayout
+        component={ReservasiMeetingFormView}
+        exact
+        layout={MainLayout}
+        path="/ruang-meeting/tambah"
       />
       <PrivateRouteWithLayout
         component={TypographyView}
