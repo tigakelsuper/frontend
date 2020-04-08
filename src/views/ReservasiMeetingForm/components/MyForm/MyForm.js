@@ -53,18 +53,43 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MyForm = props => {
-  const { className,simpan, ...rest } = props;
+  const { className,simpan,data, ...rest } = props;
+
+ 
+
+  // useEffect(() => {
+  //   setValues({
+  //     ...values,
+  //     waktu_meeting: data.waktu_meeting,
+  //     nama_ruangan:data.nama_ruangan
+  //   });
+  // });
+
+  useEffect(() => {
+    setValues({
+      ...values,
+      waktu_meeting: data.waktu_meeting,
+      nama_ruangan:data.nama_ruangan,
+      waktuMeeting:data.waktu_meeting,
+      startMeeting:data.waktu_meeting,
+      endMeeting:data.waktu_meeting,
+      id_ruangan:data.id_ruangan
+    });
+  }, []);
+
  
 
   const classes = useStyles();
 
   const [values, setValues] = useState({
-    waktuMeeting:moment().format("YYYY-MM-DD"),
-    startMeeting:moment().format("YYYY-MM-DD"),
-    endMeeting:moment().format("YYYY-MM-DD"),
+    waktuMeeting:null,
+    startMeeting:null,
+    endMeeting:null,
     agenda:'',
     deskripsi:'',
-   
+    waktu_meeting:'',
+    nama_ruangan:'',
+    id_ruangan:0
   });
 
 
@@ -139,6 +164,8 @@ const MyForm = props => {
             container
             spacing={3}
           >
+            
+
             <Grid
               item
               md={12}
@@ -146,20 +173,36 @@ const MyForm = props => {
             >
               <TextField
                 fullWidth
-               
+          
                 label="Tanggal Reservasi"
                 margin="dense"
-                name="waktu_meeting"
-                type="date"
-                onChange={(_, date) => this.setValues({...values,waktuMeeting: date })}
-               
-                defaultValue="2020-04-04"
-                required
-                value={values.waktuMeeting}
-                variant="outlined"
-                InputLabelProps={{
-                  shrink: true,
+                name="agenda"
+                InputProps={{
+                  readOnly: true,
                 }}
+             
+                value={moment(values.waktu_meeting).format('DD-MM-YYYY')}
+                variant="outlined"
+              />
+            </Grid>
+
+            <Grid
+              item
+              md={12}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+          
+                label="Ruang Meeting"
+                margin="dense"
+                name="agenda"
+                InputProps={{
+                  readOnly: true,
+                }}
+            
+                value={values.nama_ruangan}
+                variant="outlined"
               />
             </Grid>
 

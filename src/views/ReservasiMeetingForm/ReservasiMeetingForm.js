@@ -15,7 +15,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PemesananMobilForm = () => {
+const ReservasiMeetingForm = props => {
+  const {location,...rest} = props;
+
+  const data = location.state;
+
   const classes = useStyles();
   const { authTokens } = useAuth();
 
@@ -31,15 +35,17 @@ const userInfo = decode(token);
 
   
     try {
+      console.log(values.waktu_meeting);
+      console.log(moment(values.waktu_meeting,'YYYY-MM-DD').format());
       const response = await axios.post(`${moduleConfigs.server}/${moduleConfigs.name}`, {
-        waktu_meeting: moment(values.waktuMeeting).format(),
-        start_meeting: moment(values.startMeeting).format(),
-        end_meeting: moment(values.endMeeting).format(),
+        waktu_meeting: moment(values.waktu_meeting,'YYYY-MM-DD').add(1, 'days').format(),
+        start_meeting: moment(values.startMeeting,'YYYY-MM-DD').add(1, 'days').format(),
+        end_meeting: moment(values.endMeeting,'YYYY-MM-DD').add(1, 'days').format(),
         agenda: values.agenda,
         deskripsi:values.deskripsi,
         status:moduleConfigs.statusList.available,
         userId:parseInt(userInfo.id),
-        ruangMeetingId:1
+        ruangMeetingId:values.id_ruangan
       });
      // console.log(' Returned data:', response);
      // handleOpen();
@@ -64,11 +70,11 @@ const userInfo = decode(token);
           xl={8}
           xs={12}
         >
-          <MyForm simpan={simpan} />
+          <MyForm simpan={simpan} data={data} />
         </Grid>
       </Grid>
     </div>
   );
 };
 
-export default PemesananMobilForm;
+export default ReservasiMeetingForm;

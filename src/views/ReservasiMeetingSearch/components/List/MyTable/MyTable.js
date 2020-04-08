@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 
 
 const MyTable = props => {
-  const { className, data,cancelAction,approveAction, ...rest } = props;
+  const { className, data,selectRuangMeeting, ...rest } = props;
 
   const [modalShow, setModalShow] = React.useState(false);
   const [endpoint, setEndpoint] = React.useState(null);
@@ -125,22 +125,13 @@ const MyTable = props => {
     <Button
        color="primary"
           variant="contained"
-      onClick={() => { approveAction(history,datatransaksi,dataIndex) }}
+      onClick={() => { selectRuangMeeting(history,datatransaksi,dataIndex) }}
     >
-     Approve
+     PILIH
     </Button>
   ))
 
-  const MyCancelButton = withRouter(({ history,datatransaksi,dataIndex}) => (
-    <Button
-       color="secondary"
-          variant="contained"
-      onClick={() => { cancelAction(history,datatransaksi,dataIndex) }}
-    >
-     Cancel
-    </Button>
-  ))
-
+ 
 
   
 
@@ -158,24 +149,12 @@ const MyTable = props => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedData.length === data.length}
-                      color="primary"
-                      indeterminate={
-                        selectedData.length > 0 &&
-                        selectedData.length < data.length
-                      }
-                      onChange={handleSelectAll}
-                    />
-                  </TableCell>
-                  <TableCell>Tanggal Meeting</TableCell>
-                  <TableCell>Ruang Meeting</TableCell>
-                  <TableCell>Pemesan</TableCell>
-                  <TableCell>Agenda</TableCell>
-                  <TableCell>Start Meeting</TableCell>
-                  <TableCell>End Meeting</TableCell>
-                  
+              
+                  <TableCell>Nama Ruangan</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Fasilitas Ruangan</TableCell>
+                  <TableCell>Kapasitas</TableCell>
+                 
                   <TableCell>&nbsp;</TableCell>
                 </TableRow>
               </TableHead>
@@ -187,43 +166,22 @@ const MyTable = props => {
                     key={dt.id}
                     selected={selectedData.indexOf(dt.id) !== -1}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={selectedData.indexOf(dt.id) !== -1}
-                        color="primary"
-                        onChange={event => handleSelectOne(event, dt.id)}
-                        value="true"
-                      />
+                  <TableCell>
+                      {dt.nama_ruangan}
                     </TableCell>
+                   
                     <TableCell>
-                      <div className={classes.nameContainer}>
-                     
-                        <Typography variant="body1"> {moment(dt.waktu_meeting).format('DD/MM/YYYY')}</Typography>
-                      </div>
+                      {dt.status_tersedia}
                     </TableCell>
+                    <TableCell>{dt.fasilitas_ruangan}</TableCell>
                     <TableCell>
-                      {dt.ruangMeeting.nama_ruangan}
+                      {dt.kapasitas}
                     </TableCell>
-                    <TableCell>{dt.user?dt.user.username:''}</TableCell>
-                    <TableCell>
-                      {dt.agenda}
-                    </TableCell>
-                    <TableCell>{moment(dt.start_meeting).format('DD/MM/YYYY')}</TableCell>
-                    <TableCell>{moment(dt.end_meeting).format('DD/MM/YYYY')}</TableCell>
+                
                   
                     <TableCell>
-                    { (showCancelButton  && dt.status_pemesanan==='submitted')?(
-                            <MyCancelButton datatransaksi={dt} dataIndex={dataIndex} />
-                           
-                         ):(
-                          <div></div>
-                         )}
-                         { (showApproveButton  && dt.status_pemesanan==='submitted')?(
-                            <MyButton datatransaksi={dt} dataIndex={dataIndex} />
-                           
-                         ):(
-                          <div></div>
-                         )}
+                    <MyButton datatransaksi={dt} dataIndex={dataIndex} />
+                  
                          
                     </TableCell>
                   </TableRow>

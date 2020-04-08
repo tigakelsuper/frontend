@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import { Button } from '@material-ui/core';
+import { Button,TextField } from '@material-ui/core';
 
-import { SearchInput } from 'components';
+import { SearchInput,DateInput} from 'components';
 import { withRouter } from 'react-router-dom';
-import {moduleConfigs} from './../../../ReservasiMeeting';
+import {moduleConfigs} from './../../../../ReservasiMeeting/ReservasiMeeting';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const MyToolbar = props => {
-  const { className,history, ...rest } = props;
+  const { className,history,searchRuangMeeting, ...rest } = props;
 
 
   const classes = useStyles();
@@ -40,7 +40,7 @@ const MyToolbar = props => {
     <Button
        color="primary"
           variant="contained"
-      onClick={() => { history.push(`/${moduleConfigs.route}/search`) }}
+      onClick={() => { history.push(`/${moduleConfigs.route}/tambah`) }}
     >
      Tambah Reservasi
     </Button>
@@ -53,17 +53,20 @@ const MyToolbar = props => {
     >
       <div className={classes.row}>
         <span className={classes.spacer} />
-       
-        <MyButton
-        >
-         
-        </MyButton>
+    
       </div>
       <div className={classes.row}>
-        <SearchInput
+      <div>1. Silahkan pilih ruang meeting</div>
+    
+      </div>
+      <div className={classes.row}>
+    
+       <DateInput
           className={classes.searchInput}
-          placeholder="Search Pemesanan"
+          placeholder="Search Ruang Meeting"
+          onChange={searchRuangMeeting}
         />
+       
       </div>
     </div>
   );
