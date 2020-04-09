@@ -19,7 +19,9 @@ import {
   PemesananMobilForm as PemesananMobilFormView,
   ReservasiMeeting as ReservasiMeetingView,
   ReservasiMeetingForm as ReservasiMeetingFormView,
-  ReservasiMeetingSearch as ReservasiMeetingSearchView
+  ReservasiMeetingSearch as ReservasiMeetingSearchView,
+  RuangMeeting as RuangMeetingView,
+  RuangMeetingForm as RuangMeetingFormView,
 } from './views';
 
 import PrivateRoute from './auth/PrivateRoute';
@@ -51,28 +53,51 @@ const Routes = () => {
         path="/tidak-dipakai-plv"
       />
       <PrivateRouteWithLayout
-        component={ReservasiMeetingView}
+        component={RuangMeetingView}
         exact
         layout={MainLayout}
         path="/ruang-meeting"
       />
        <PrivateRouteWithLayout
-        component={ReservasiMeetingFormView}
+        component={RuangMeetingFormView}
         exact
         layout={MainLayout}
         path="/ruang-meeting/tambah"
+      />
+
+      <PrivateRouteWithLayout
+        component={RuangMeetingFormView}
+        exact
+        layout={MainLayout}
+        path="/ruang-meeting/view"
+      />
+
+       <PrivateRouteWithLayout
+        component={ReservasiMeetingFormView}
+        exact
+        layout={MainLayout}
+        path="/reservasi-ruang-meeting/view"
+      />
+ 
+ <PrivateRouteWithLayout
+        component={ReservasiMeetingView}
+        exact
+        layout={MainLayout}
+        path="/reservasi-ruang-meeting"
       />
        <PrivateRouteWithLayout
         component={ReservasiMeetingFormView}
         exact
         layout={MainLayout}
-        path="/ruang-meeting/view"
+        path="/reservasi-ruang-meeting/tambah"
       />
+     
+
       <PrivateRouteWithLayout
         component={ReservasiMeetingSearchView}
         exact
         layout={MainLayout}
-        path="/ruang-meeting/search"
+        path="/reservasi-ruang-meeting/search"
       />
       <PrivateRouteWithLayout
         component={TypographyView}

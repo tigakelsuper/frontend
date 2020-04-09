@@ -13,3 +13,5 @@ export { default as PemesananMobilForm } from './PemesananMobilForm';
 export { default as ReservasiMeeting } from './ReservasiMeeting';
 export { default as ReservasiMeetingForm } from './ReservasiMeetingForm';
 export { default as ReservasiMeetingSearch } from './ReservasiMeetingSearch';
+export { default as RuangMeeting } from './RuangMeeting';
+export { default as RuangMeetingForm } from './RuangMeetingForm';

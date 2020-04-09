@@ -15,19 +15,19 @@ const useStyles = makeStyles(theme => ({
 
 export const moduleConfigs = {
   server:'http://localhost:3000',
-  name:'meeting-room-reservations',
-  nameForLabelInfo:'Reservasi ruang meeting',
-  route:'reservasi-ruang-meeting',
+  name:'ruang-meetings',
+  nameForLabelInfo:'Ruang Meeting',
+  route:'ruang-meeting',
   label:{
-    addNew:'Silahkan menginput informasi reservasi'
+    addNew:'Silahkan menginput informasi ruang meeting'
   },
   statusList:{
-    available:'schedule_available'
+    available:'available'
   }
 
 };
 
-const ReservasiMeeting = () => {
+const RuangMeeting = () => {
   const classes = useStyles();
 
   const [data,setData] = useState([]);
@@ -99,22 +99,12 @@ const ReservasiMeeting = () => {
   };
 
   useEffect(() => {
-    const params = {
-      include: [
-        {
-          relation: "user"
-        
-        },
-     {
-          relation: "ruangMeeting"
-        }
-      ]
-    };
+ 
 
     const fetchData = async () => {
       const result = await axios({
         method: "get",
-        url: `${moduleConfigs.server}/${moduleConfigs.name}?filter=${JSON.stringify(params)}`,
+        url: `${moduleConfigs.server}/${moduleConfigs.name}`,
        
       });
       setData(result.data);
@@ -134,4 +124,4 @@ const ReservasiMeeting = () => {
   );
 };
 
-export default ReservasiMeeting;
+export default RuangMeeting;

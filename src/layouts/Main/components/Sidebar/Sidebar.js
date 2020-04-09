@@ -62,7 +62,7 @@ const Sidebar = props => {
     },
     {
       title: 'Ruang Meeting',
-      href: '/ruang-meeting',
+      href: '/reservasi-ruang-meeting',
       icon: <MeetingRoomIcon />
     },
     {

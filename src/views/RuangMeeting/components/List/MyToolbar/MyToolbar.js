@@ -6,7 +6,7 @@ import { Button } from '@material-ui/core';
 
 import { SearchInput } from 'components';
 import { withRouter } from 'react-router-dom';
-import {moduleConfigs} from './../../../ReservasiMeeting';
+import {moduleConfigs} from '../../../RuangMeeting';
 import { useAuth } from "./../../../../../auth/auth";
 import { isHCO } from 'hakakses/hakakses';
 import {getUserInfoFromToken} from './../../../../../mymixin/mymixin';
@@ -47,19 +47,9 @@ const MyToolbar = props => {
     <Button
        color="primary"
           variant="contained"
-      onClick={() => { history.push(`/${moduleConfigs.route}/search`) }}
+      onClick={() => { history.push(`/${moduleConfigs.route}/tambah`,{jenis_input:'tambah'}) }}
     >
-     Tambah Reservasi
-    </Button>
-  ))
-
-  const MyAddRuangaMeetingButton = withRouter(({ history }) => (
-    <Button
-       color="primary"
-          variant="contained"
-      onClick={() => { history.push(`/ruang-meeting`) }}
-    >
-      Ruang Meeting
+     Tambah Ruang Meeting
     </Button>
   ))
 
@@ -80,16 +70,12 @@ const MyToolbar = props => {
          
         </MyButton>
 
-        {showMyAddButton?(
-          <MyAddRuangaMeetingButton></MyAddRuangaMeetingButton>
-        ):(
-          <div></div>
-        )}
+       
       </div>
       <div className={classes.row}>
         <SearchInput
           className={classes.searchInput}
-          placeholder="Search Pemesanan"
+          placeholder="Search Ruang Meeting"
         />
       </div>
     </div>
