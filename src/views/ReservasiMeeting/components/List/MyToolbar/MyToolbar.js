@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button } from '@material-ui/core';
 
-import { SearchInput } from 'components';
+import { SearchInput,RangedDateInput} from 'components';
 import { withRouter } from 'react-router-dom';
 import {moduleConfigs} from './../../../ReservasiMeeting';
 import { useAuth } from "./../../../../../auth/auth";
@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const MyToolbar = props => {
-  const { className,history, ...rest } = props;
+  const { className,history,rangedDataInputOnClick, ...rest } = props;
 
   const { authTokens } = useAuth();
 
@@ -87,10 +87,15 @@ const MyToolbar = props => {
         )}
       </div>
       <div className={classes.row}>
-        <SearchInput
+      <RangedDateInput
           className={classes.searchInput}
           placeholder="Search Pemesanan"
+          onClick={rangedDataInputOnClick}
         />
+        {/* <SearchInput
+          className={classes.searchInput}
+          placeholder="Search Pemesanan"
+        /> */}
       </div>
     </div>
   );

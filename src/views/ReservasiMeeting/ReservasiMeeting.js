@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 
 import { MyToolbar, MyTable } from './components';
 import axios from 'axios';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -111,6 +112,8 @@ const ReservasiMeeting = () => {
       ]
     };
 
+   
+
     const fetchData = async () => {
       const result = await axios({
         method: "get",
@@ -122,11 +125,51 @@ const ReservasiMeeting = () => {
     fetchData();
   }, []);
 
+  const filterDataByDate = async (dataFilter) => {
+    console.log(dataFilter);
+    const params = {
+      include: [
+        {
+          relation: "user"
+        
+        },
+     {
+          relation: "ruangMeeting"
+        }
+      ]
+    };
+
+    let fixParams = params;
+
+    if(dataFilter.startDate && dataFilter.endDate){
+      fixParams = {
+        ...params,
+        where: {
+          and:[ { waktu_meeting: {
+        gt:new Date(moment(dataFilter.startDate).subtract(1,'seconds').format())
+       }},
+       { waktu_meeting: {
+        lt:new Date(moment(dataFilter.endDate).add(1,"days").subtract(1,'seconds').format())
+       }}
+       ]
+          
+       }
+      }
+    }
+
+    const result = await axios({
+      method: "get",
+      url: `${moduleConfigs.server}/${moduleConfigs.name}?filter=${JSON.stringify(fixParams)}`,
+     
+    });
+    setData(result.data);
+  };
+
   
 
   return (
     <div className={classes.root}>
-      <MyToolbar />
+      <MyToolbar rangedDataInputOnClick={filterDataByDate} />
       <div className={classes.content}>
         <MyTable data={data} cancelAction={cancelAction} approveAction={approveAction} />
       </div>
