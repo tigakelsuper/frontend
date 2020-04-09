@@ -98,7 +98,7 @@ const ReservasiMeetingSearch = props => {
 
   const selectRuangMeeting = async (history,data,dataIndex) =>  {
 
-    history.push(`/${moduleConfigs.route}/tambah`,{id_ruangan:data.id_ruangan,nama_ruangan:data.nama_ruangan,waktu_meeting:tanggal});
+    history.push(`/${moduleConfigs.route}/tambah`,{id_ruangan:data.id_ruangan,nama_ruangan:data.nama_ruangan,waktu_meeting:tanggal,jenis_input:'tambah',dataDefault:null});
   };
 
   

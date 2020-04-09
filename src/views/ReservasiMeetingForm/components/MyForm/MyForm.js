@@ -65,17 +65,7 @@ const MyForm = props => {
   //   });
   // });
 
-  useEffect(() => {
-    setValues({
-      ...values,
-      waktu_meeting: data.waktu_meeting,
-      nama_ruangan:data.nama_ruangan,
-      waktuMeeting:data.waktu_meeting,
-      startMeeting:data.waktu_meeting,
-      endMeeting:data.waktu_meeting,
-      id_ruangan:data.id_ruangan
-    });
-  }, []);
+  
 
  
 
@@ -89,8 +79,39 @@ const MyForm = props => {
     deskripsi:'',
     waktu_meeting:'',
     nama_ruangan:'',
-    id_ruangan:0
+    id_ruangan:0,
+    id_meeting_room_res:0
   });
+
+  useEffect(() => {
+    setValues({
+      ...values,
+      waktu_meeting: data.waktu_meeting,
+      nama_ruangan:data.nama_ruangan,
+      waktuMeeting:data.waktu_meeting,
+      startMeeting:data.waktu_meeting,
+      endMeeting:data.waktu_meeting,
+      id_ruangan:data.id_ruangan,
+      
+    });
+
+    console.log(data.dataDefault);
+
+    if(data.jenis_input==='ubah'){
+      setValues({
+        ...values,
+        waktu_meeting: data.dataDefault.waktu_meeting,
+        nama_ruangan:data.dataDefault.ruangMeeting.nama_ruangan,
+        waktuMeeting:data.dataDefault.waktu_meeting,
+        startMeeting:data.dataDefault.start_meeting,
+        endMeeting:data.dataDefault.end_meeting,
+        id_ruangan:data.dataDefault.ruangMeetingId,
+        agenda:data.dataDefault.agenda,
+        deskripsi:data.dataDefault.deskripsi,
+        id_meeting_room_res:data.dataDefault.id_meeting_room_res
+      });
+    }
+  }, []);
 
 
   const handleChange = event => {
@@ -234,10 +255,9 @@ const MyForm = props => {
                
                 label="Waktu Pakai Ruang Meeting"
                 margin="dense"
-                name="start_meeting"
+                name="startMeeting"
                 type="date"
                 onChange={handleChange}
-                defaultValue="2020-04-04"
                 required
                 value={values.startMeeting}
                 variant="outlined"
@@ -257,10 +277,9 @@ const MyForm = props => {
               
                 label="Waktu Selesai Ruang Meeting"
                 margin="dense"
-                name="end_meeting"
+                name="endMeeting"
                 type="date"
                 onChange={handleChange}
-                defaultValue="2020-04-04"
                 required
                 value={values.endMeeting}
                 variant="outlined"

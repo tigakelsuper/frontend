@@ -27,6 +27,7 @@ import {getUserInfoFromToken} from './../../../../../mymixin/mymixin';
 import {isAtasanPegawai,isHCO,isPegawai} from './../../../../../hakakses/hakakses';
 import { useAuth } from "./../../../../../auth/auth";
 import { withRouter } from 'react-router-dom'
+import {moduleConfigs} from './../../../../ReservasiMeeting/ReservasiMeeting';
 
 
 const useStyles = makeStyles(theme => ({
@@ -114,11 +115,10 @@ const MyTable = props => {
   };
 
   const userInfo = getUserInfoFromToken(authTokens);
-  const {name} = userInfo;
+  const {id,name} = userInfo;
   const showApproveButton = isAtasanPegawai(name);
-  const showCancelButton = isPegawai(name);
 
-
+  console.log(userInfo);
   
 
   const MyButton = withRouter(({ history,datatransaksi,dataIndex}) => (
@@ -138,6 +138,16 @@ const MyTable = props => {
       onClick={() => { cancelAction(history,datatransaksi,dataIndex) }}
     >
      Cancel
+    </Button>
+  ))
+
+  const MyViewDetailButton = withRouter(({ history,datatransaksi,dataIndex}) => (
+    <Button
+       color="secondary"
+          variant="contained"
+      onClick={() => { history.push(`/${moduleConfigs.route}/view`,{id_ruangan:datatransaksi.ruangMeetingId,nama_ruangan:datatransaksi.ruangMeeting.nama_ruangan,waktu_meeting:datatransaksi.waktu_meeting,jenis_input:'ubah',dataDefault:datatransaksi}) }}
+    >
+     View
     </Button>
   ))
 
@@ -171,6 +181,7 @@ const MyTable = props => {
                   </TableCell>
                   <TableCell>Tanggal Meeting</TableCell>
                   <TableCell>Ruang Meeting</TableCell>
+                  <TableCell>Status Pemesanan</TableCell>
                   <TableCell>Pemesan</TableCell>
                   <TableCell>Agenda</TableCell>
                   <TableCell>Start Meeting</TableCell>
@@ -204,6 +215,9 @@ const MyTable = props => {
                     <TableCell>
                       {dt.ruangMeeting.nama_ruangan}
                     </TableCell>
+                    <TableCell>
+                      {dt.status}
+                    </TableCell>
                     <TableCell>{dt.user?dt.user.username:''}</TableCell>
                     <TableCell>
                       {dt.agenda}
@@ -212,18 +226,22 @@ const MyTable = props => {
                     <TableCell>{moment(dt.end_meeting).format('DD/MM/YYYY')}</TableCell>
                   
                     <TableCell>
-                    { (showCancelButton  && dt.status_pemesanan==='submitted')?(
-                            <MyCancelButton datatransaksi={dt} dataIndex={dataIndex} />
+                    { (dt.userId===parseInt(id) && dt.status==='schedule_available')?(
+                            <div>
+                                <MyCancelButton datatransaksi={dt} dataIndex={dataIndex} />
+                            <MyViewDetailButton datatransaksi={dt} dataIndex={dataIndex} />
+                            </div>
+                            
                            
                          ):(
                           <div></div>
                          )}
-                         { (showApproveButton  && dt.status_pemesanan==='submitted')?(
+                         {/* { (showApproveButton  && dt.status_pemesanan==='submitted')?(
                             <MyButton datatransaksi={dt} dataIndex={dataIndex} />
                            
                          ):(
                           <div></div>
-                         )}
+                         )} */}
                          
                     </TableCell>
                   </TableRow>

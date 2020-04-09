@@ -23,6 +23,8 @@ const ReservasiMeetingForm = props => {
   const classes = useStyles();
   const { authTokens } = useAuth();
 
+  const jenisInput = data.jenis_input;
+
   const simpan = async (history,values) =>  {
  
     
@@ -35,9 +37,8 @@ const userInfo = decode(token);
 
   
     try {
-      console.log(values.waktu_meeting);
-      console.log(moment(values.waktu_meeting,'YYYY-MM-DD').format());
-      const response = await axios.post(`${moduleConfigs.server}/${moduleConfigs.name}`, {
+
+      const dataForRequest =  {
         waktu_meeting: moment(values.waktu_meeting,'YYYY-MM-DD').add(1, 'days').format(),
         start_meeting: moment(values.startMeeting,'YYYY-MM-DD').add(1, 'days').format(),
         end_meeting: moment(values.endMeeting,'YYYY-MM-DD').add(1, 'days').format(),
@@ -46,8 +47,21 @@ const userInfo = decode(token);
         status:moduleConfigs.statusList.available,
         userId:parseInt(userInfo.id),
         ruangMeetingId:values.id_ruangan
-      });
-     // console.log(' Returned data:', response);
+      };
+
+      if(jenisInput==='tambah'){
+        const response = await axios.post(`${moduleConfigs.server}/${moduleConfigs.name}`,dataForRequest);
+    
+      }else{
+        const dataForUpdate = {
+          ...dataForRequest,
+          id_meeting_room_res:values.id_meeting_room_res
+        }
+        const response = await axios.put(`${moduleConfigs.server}/${moduleConfigs.name}/${values.id_meeting_room_res}`,dataForRequest);
+    
+      }
+     
+      // console.log(' Returned data:', response);
      // handleOpen();
       history.push(`/${moduleConfigs.route}`);
     } catch (e) {

@@ -62,6 +62,12 @@ const Routes = () => {
         layout={MainLayout}
         path="/ruang-meeting/tambah"
       />
+       <PrivateRouteWithLayout
+        component={ReservasiMeetingFormView}
+        exact
+        layout={MainLayout}
+        path="/ruang-meeting/view"
+      />
       <PrivateRouteWithLayout
         component={ReservasiMeetingSearchView}
         exact

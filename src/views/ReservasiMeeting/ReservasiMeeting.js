@@ -70,17 +70,15 @@ const ReservasiMeeting = () => {
 
 
   
-    let {user,mobil,...updatedFields} = datatransaksi 
+    let {user,ruangMeeting,...updatedFields} = datatransaksi 
     const transaksiForCancel = {
       ...updatedFields,
-      status_pemesanan: 'cancelled',
-      userId : datatransaksi.user.id,
-      mobilId: datatransaksi.mobil.nomor_polisi
+      status: 'cancelled'
     }
 
     const cancelForTable = {
       ...datatransaksi,
-      status_pemesanan: 'cancelled',
+      status: 'cancelled',
     }
 
     const newData = [
@@ -91,7 +89,7 @@ const ReservasiMeeting = () => {
     ];
 
     try {
-      const response = await axios.put(`${moduleConfigs.server}/${moduleConfigs.name}/${datatransaksi.id}`,transaksiForCancel);
+      const response = await axios.put(`${moduleConfigs.server}/${moduleConfigs.name}/${datatransaksi.id_meeting_room_res}`,transaksiForCancel);
      
       alert(`${moduleConfigs.nameForLabelInfo} berhasil dibatalkan.`);
       setData(newData);
