@@ -22,6 +22,9 @@ import {
   ReservasiMeetingSearch as ReservasiMeetingSearchView,
   RuangMeeting as RuangMeetingView,
   RuangMeetingForm as RuangMeetingFormView,
+  OrderInventory as OrderInventoryView,
+  OrderInventoryForm as OrderInventoryFormView,
+  OrderInventorySearch as OrderInventorySearchView,
 } from './views';
 
 import PrivateRoute from './auth/PrivateRoute';
@@ -99,6 +102,35 @@ const Routes = () => {
         layout={MainLayout}
         path="/reservasi-ruang-meeting/search"
       />
+
+<PrivateRouteWithLayout
+        component={OrderInventoryFormView}
+        exact
+        layout={MainLayout}
+        path="/order-inventory/view"
+      />
+ 
+ <PrivateRouteWithLayout
+        component={OrderInventoryView}
+        exact
+        layout={MainLayout}
+        path="/order-inventory"
+      />
+       <PrivateRouteWithLayout
+        component={OrderInventoryFormView}
+        exact
+        layout={MainLayout}
+        path="/order-inventory/tambah"
+      />
+
+<PrivateRouteWithLayout
+        component={OrderInventorySearchView}
+        exact
+        layout={MainLayout}
+        path="/order-inventory/search"
+      />
+     
+
       <PrivateRouteWithLayout
         component={TypographyView}
         exact

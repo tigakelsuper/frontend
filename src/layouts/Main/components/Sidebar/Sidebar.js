@@ -56,8 +56,8 @@ const Sidebar = props => {
       icon: <DashboardIcon />
     },
     {
-      title: 'Inventory',
-      href: '/inventory',
+      title: 'Permintaan Inventaris',
+      href: '/order-inventory',
       icon: <LayersIcon />
     },
     {

@@ -15,3 +15,6 @@ export { default as ReservasiMeetingForm } from './ReservasiMeetingForm';
 export { default as ReservasiMeetingSearch } from './ReservasiMeetingSearch';
 export { default as RuangMeeting } from './RuangMeeting';
 export { default as RuangMeetingForm } from './RuangMeetingForm';
+export { default as OrderInventory } from './OrderInventory';
+export { default as OrderInventoryForm } from './OrderInventoryForm';
+export { default as OrderInventorySearch } from './OrderInventorySearch';
