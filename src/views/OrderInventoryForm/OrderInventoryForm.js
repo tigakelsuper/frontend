@@ -46,7 +46,8 @@ const userInfo = decode(token);
         inventoryId: values.inventoryId,
         nomor_order:nomor,
         jumlah:parseInt(values.jumlah),
-        userId:parseInt(userInfo.id)
+        userId:parseInt(userInfo.id),
+        status_order:moduleConfigs.statusList.submitted
       };
 
       if(jenisInput==='tambah'){

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button } from '@material-ui/core';
 
-import { SearchInput,RangedDateInput} from 'components';
+import { TextInput } from 'components';
 import { withRouter } from 'react-router-dom';
 import {moduleConfigs} from '../../../OrderInventory';
 import { useAuth } from "../../../../../auth/auth";
@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const MyToolbar = props => {
-  const { className,history,rangedDataInputOnClick, ...rest } = props;
+  const { className,history,searchTransactionData, ...rest } = props;
 
   const { authTokens } = useAuth();
 
@@ -87,15 +87,12 @@ const MyToolbar = props => {
         )}
       </div>
       <div className={classes.row}>
-      <RangedDateInput
+      <TextInput
           className={classes.searchInput}
-          placeholder="Search Pemesanan"
-          onClick={rangedDataInputOnClick}
+          searchOnClick={searchTransactionData}
+          placeHolderText="Nomor Permintaan"
         />
-        {/* <SearchInput
-          className={classes.searchInput}
-          placeholder="Search Pemesanan"
-        /> */}
+      
       </div>
     </div>
   );

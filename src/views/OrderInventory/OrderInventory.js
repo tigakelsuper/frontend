@@ -23,7 +23,9 @@ export const moduleConfigs = {
     addNew:'Silahkan menginput informasi order'
   },
   statusList:{
-    available:'available'
+    submitted:'submitted',
+    cancelled:'cancelled',
+    approved:'approved'
   }
 
 };
@@ -71,15 +73,15 @@ const OrderInventory = () => {
 
 
   
-    let {user,ruangMeeting,...updatedFields} = datatransaksi 
+    let {user,inventory,...updatedFields} = datatransaksi 
     const transaksiForCancel = {
       ...updatedFields,
-      status: 'cancelled'
+      status_order: moduleConfigs.statusList.cancelled
     }
 
     const cancelForTable = {
       ...datatransaksi,
-      status: 'cancelled',
+      status_order: moduleConfigs.statusList.cancelled,
     }
 
     const newData = [
@@ -90,7 +92,7 @@ const OrderInventory = () => {
     ];
 
     try {
-      const response = await axios.put(`${moduleConfigs.server}/${moduleConfigs.name}/${datatransaksi.id_meeting_room_res}`,transaksiForCancel);
+      const response = await axios.put(`${moduleConfigs.server}/${moduleConfigs.name}/${datatransaksi.id_order}`,transaksiForCancel);
      
       alert(`${moduleConfigs.nameForLabelInfo} berhasil dibatalkan.`);
       setData(newData);
@@ -99,18 +101,20 @@ const OrderInventory = () => {
     }
   };
 
+  const params = {
+    include: [
+      {
+        relation: "user"
+      
+      },
+   {
+        relation: "inventory"
+      }
+    ]
+  };
+
   useEffect(() => {
-    const params = {
-      include: [
-        {
-          relation: "user"
-        
-        },
-     {
-          relation: "inventory"
-        }
-      ]
-    };
+   
 
    
 
@@ -125,41 +129,30 @@ const OrderInventory = () => {
     fetchData();
   }, []);
 
-  const filterDataByDate = async (dataFilter) => {
-    console.log(dataFilter);
-    const params = {
-      include: [
-        {
-          relation: "user"
-        
-        },
-     {
-          relation: "ruangMeeting"
-        }
-      ]
-    };
-
-    let fixParams = params;
-
-    if(dataFilter.startDate && dataFilter.endDate){
-      fixParams = {
+  const filterDataByNomor = async (values) => {
+    
+    const filterData = values? values.filterData:null;
+  
+    let url = `${moduleConfigs.server}/${moduleConfigs.name}`;
+    if(filterData){
+      const paramsFilter = {
         ...params,
         where: {
-          and:[ { waktu_meeting: {
-        gt:new Date(moment(dataFilter.startDate).subtract(1,'seconds').format())
-       }},
-       { waktu_meeting: {
-        lt:new Date(moment(dataFilter.endDate).add(1,"days").subtract(1,'seconds').format())
-       }}
-       ]
-          
-       }
+          nomor_order: {
+      ilike:filterData
+      
       }
+        }
+        
+      };
+      url = url.concat(`?filter=${JSON.stringify(paramsFilter)}`);
+    }else{
+      url = url.concat(`?filter=${JSON.stringify(params)}`);
     }
 
     const result = await axios({
       method: "get",
-      url: `${moduleConfigs.server}/${moduleConfigs.name}?filter=${JSON.stringify(fixParams)}`,
+      url: url,
      
     });
     setData(result.data);
@@ -169,7 +162,7 @@ const OrderInventory = () => {
 
   return (
     <div className={classes.root}>
-      <MyToolbar rangedDataInputOnClick={filterDataByDate} />
+      <MyToolbar searchTransactionData={filterDataByNomor} />
       <div className={classes.content}>
         <MyTable data={data} cancelAction={cancelAction} approveAction={approveAction} />
       </div>

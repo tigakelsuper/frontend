@@ -27,7 +27,7 @@ import {getUserInfoFromToken} from '../../../../../mymixin/mymixin';
 import {isAtasanPegawai,isHCO,isPegawai} from '../../../../../hakakses/hakakses';
 import { useAuth } from "../../../../../auth/auth";
 import { withRouter } from 'react-router-dom'
-import {moduleConfigs} from '../../../../ReservasiMeeting/ReservasiMeeting';
+import {moduleConfigs} from '../../../../OrderInventory/OrderInventory';
 
 
 const useStyles = makeStyles(theme => ({
@@ -145,7 +145,7 @@ const MyTable = props => {
     <Button
        color="secondary"
           variant="contained"
-      onClick={() => { history.push(`/${moduleConfigs.route}/view`,{id_ruangan:datatransaksi.ruangMeetingId,nama_ruangan:datatransaksi.ruangMeeting.nama_ruangan,waktu_meeting:datatransaksi.waktu_meeting,jenis_input:'ubah',dataDefault:datatransaksi}) }}
+      onClick={() => { history.push(`/${moduleConfigs.route}/view`,{id_inventory:data.id_inventory,nama_barang:data.nama_barang,jenis_input:'ubah',dataDefault:datatransaksi}) }}
     >
      View
     </Button>
@@ -180,6 +180,7 @@ const MyTable = props => {
                     />
                   </TableCell>
                   <TableCell>Nomor Order</TableCell>
+                  <TableCell>Status</TableCell>
                   <TableCell>Nama Barang</TableCell>
                   <TableCell>Jumlah</TableCell>
                   <TableCell>Pemesan</TableCell>
@@ -208,6 +209,9 @@ const MyTable = props => {
                       {dt.nomor_order}
                     </TableCell>
                     <TableCell>
+                      {dt.status_order}
+                    </TableCell>
+                    <TableCell>
                       {dt.inventory.nama_barang}
                     </TableCell>
                     <TableCell>
@@ -219,7 +223,7 @@ const MyTable = props => {
                    
                   
                     <TableCell>
-                    { (dt.userId===parseInt(id) && dt.status==='schedule_available')?(
+                    { (dt.userId===parseInt(id) && dt.status_order !== moduleConfigs.statusList.cancelled)?(
                             <div>
                                 <MyCancelButton datatransaksi={dt} dataIndex={dataIndex} />
                             <MyViewDetailButton datatransaksi={dt} dataIndex={dataIndex} />

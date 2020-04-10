@@ -77,20 +77,18 @@ const MyForm = props => {
 
   
 
-    // if(data.jenis_input==='ubah'){
-    //   setValues({
-    //     ...values,
-    //     waktu_meeting: data.dataDefault.waktu_meeting,
-    //     nama_ruangan:data.dataDefault.ruangMeeting.nama_ruangan,
-    //     waktuMeeting:data.dataDefault.waktu_meeting,
-    //     startMeeting:data.dataDefault.start_meeting,
-    //     endMeeting:data.dataDefault.end_meeting,
-    //     id_ruangan:data.dataDefault.ruangMeetingId,
-    //     agenda:data.dataDefault.agenda,
-    //     deskripsi:data.dataDefault.deskripsi,
-    //     id_meeting_room_res:data.dataDefault.id_meeting_room_res
-    //   });
-    // }
+    if(data.jenis_input==='ubah'){
+      
+      setValues({
+        ...values,
+        id_order:data.dataDefault.id_order,
+        waktu_ambil: data.dataDefault.waktu_ambil,
+        nomor_order:data.dataDefault.nomor_order,
+        jumlah:data.dataDefault.jumlah,
+        inventoryId: data.dataDefault.inventory.id_inventory,
+        nama_barang:data.dataDefault.inventory.nama_barang,
+      });
+    }
   }, []);
 
 
