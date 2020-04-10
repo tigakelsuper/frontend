@@ -4,6 +4,9 @@ import { makeStyles } from '@material-ui/styles';
 import { MyToolbar, MyTable } from './components';
 import axios from 'axios';
 import moment from 'moment';
+import {getUserInfoFromToken} from '../../mymixin/mymixin';
+import { useAuth } from "../../auth/auth";
+import {isHCO} from '../../hakakses/hakakses';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,7 +28,8 @@ export const moduleConfigs = {
   statusList:{
     submitted:'submitted',
     cancelled:'cancelled',
-    approved:'approved'
+    approved:'approved',
+    rejected:'rejected'
   }
 
 };
@@ -35,6 +39,8 @@ const OrderInventory = () => {
 
   const [data,setData] = useState([]);
   const [dataSupir,setDataSupir] = useState([]);
+  const { authTokens } = useAuth();
+
 
   const approveAction = async (history,datatransaksi,dataIndex) =>  {
 
@@ -113,6 +119,22 @@ const OrderInventory = () => {
     ]
   };
 
+  const userInfo = getUserInfoFromToken(authTokens);
+  const {id,name} = userInfo;
+  let paramsHCO = params;
+  if(isHCO(name)){
+    paramsHCO = {
+      ...params,
+      where: {
+        status_order: {
+    ilike:moduleConfigs.statusList.approved
+    
+    }
+      }
+      
+    };
+  }
+
   useEffect(() => {
    
 
@@ -121,7 +143,7 @@ const OrderInventory = () => {
     const fetchData = async () => {
       const result = await axios({
         method: "get",
-        url: `${moduleConfigs.server}/${moduleConfigs.name}?filter=${JSON.stringify(params)}`,
+        url: `${moduleConfigs.server}/${moduleConfigs.name}?filter=${JSON.stringify(paramsHCO)}`,
        
       });
       setData(result.data);
@@ -136,7 +158,7 @@ const OrderInventory = () => {
     let url = `${moduleConfigs.server}/${moduleConfigs.name}`;
     if(filterData){
       const paramsFilter = {
-        ...params,
+        ...paramsHCO,
         where: {
           nomor_order: {
       ilike:filterData
@@ -147,7 +169,7 @@ const OrderInventory = () => {
       };
       url = url.concat(`?filter=${JSON.stringify(paramsFilter)}`);
     }else{
-      url = url.concat(`?filter=${JSON.stringify(params)}`);
+      url = url.concat(`?filter=${JSON.stringify(paramsHCO)}`);
     }
 
     const result = await axios({

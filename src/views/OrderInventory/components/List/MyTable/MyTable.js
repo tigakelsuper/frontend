@@ -125,9 +125,9 @@ const MyTable = props => {
     <Button
        color="primary"
           variant="contained"
-      onClick={() => { approveAction(history,datatransaksi,dataIndex) }}
+      onClick={() => { history.push(`/${moduleConfigs.route}/approve`,{jenis_input:'approve',dataDefault:datatransaksi}) }}
     >
-     Approve
+     CONTINUE
     </Button>
   ))
 
@@ -223,7 +223,7 @@ const MyTable = props => {
                    
                   
                     <TableCell>
-                    { (dt.userId===parseInt(id) && dt.status_order !== moduleConfigs.statusList.cancelled)?(
+                    { (dt.userId===parseInt(id) && dt.status_order===moduleConfigs.statusList.submitted)?(
                             <div>
                                 <MyCancelButton datatransaksi={dt} dataIndex={dataIndex} />
                             <MyViewDetailButton datatransaksi={dt} dataIndex={dataIndex} />
@@ -233,12 +233,12 @@ const MyTable = props => {
                          ):(
                           <div></div>
                          )}
-                         {/* { (showApproveButton  && dt.status_pemesanan==='submitted')?(
+                         { (isAtasanPegawai(name)  && dt.status_order===moduleConfigs.statusList.submitted)?(
                             <MyButton datatransaksi={dt} dataIndex={dataIndex} />
                            
                          ):(
                           <div></div>
-                         )} */}
+                         )}
                          
                     </TableCell>
                   </TableRow>

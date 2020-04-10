@@ -18,3 +18,4 @@ export { default as RuangMeetingForm } from './RuangMeetingForm';
 export { default as OrderInventory } from './OrderInventory';
 export { default as OrderInventoryForm } from './OrderInventoryForm';
 export { default as OrderInventorySearch } from './OrderInventorySearch';
+export { default as OrderInventoryApproveForm } from './OrderInventoryApproveForm';

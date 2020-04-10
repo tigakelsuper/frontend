@@ -25,6 +25,7 @@ import {
   OrderInventory as OrderInventoryView,
   OrderInventoryForm as OrderInventoryFormView,
   OrderInventorySearch as OrderInventorySearchView,
+  OrderInventoryApproveForm as OrderInventoryApproveFormView,
 } from './views';
 
 import PrivateRoute from './auth/PrivateRoute';
@@ -128,6 +129,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/order-inventory/search"
+      />
+
+<PrivateRouteWithLayout
+        component={OrderInventoryApproveFormView}
+        exact
+        layout={MainLayout}
+        path="/order-inventory/approve"
       />
      
 
