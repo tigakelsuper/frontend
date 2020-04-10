@@ -29,7 +29,9 @@ export const moduleConfigs = {
     submitted:'submitted',
     cancelled:'cancelled',
     approved:'approved',
-    rejected:'rejected'
+    rejected:'rejected',
+    onprocess:'on process',
+    ready:'ready to pickup'
   }
 
 };
@@ -107,6 +109,74 @@ const OrderInventory = () => {
     }
   };
 
+
+  const confirmAction = async (history,datatransaksi,dataIndex) =>  {
+ 
+
+
+  
+    let {user,inventory,...updatedFields} = datatransaksi 
+    const transaksiForOnProcess = {
+      ...updatedFields,
+      status_order: moduleConfigs.statusList.onprocess
+    }
+
+    const onProcessForTable = {
+      ...datatransaksi,
+      status_order: moduleConfigs.statusList.onprocess,
+    }
+
+    const newData = [
+      ...data.slice(0,dataIndex),
+      onProcessForTable,
+      ...data.slice(dataIndex+1)
+
+    ];
+
+    try {
+      const response = await axios.put(`${moduleConfigs.server}/${moduleConfigs.name}/${datatransaksi.id_order}`,transaksiForOnProcess);
+     
+      alert(`${moduleConfigs.nameForLabelInfo} berhasil dikonfirmasi.`);
+      setData(newData);
+    } catch (e) {
+      console.log(`Axios request failed: ${e}`);
+    }
+  };
+
+
+  const readyAction = async (history,datatransaksi,dataIndex) =>  {
+ 
+
+
+  
+    let {user,inventory,...updatedFields} = datatransaksi 
+    const transaksiForReady = {
+      ...updatedFields,
+      status_order: moduleConfigs.statusList.ready
+    }
+
+    const onProcessForTable = {
+      ...datatransaksi,
+      status_order: moduleConfigs.statusList.ready,
+    }
+
+    const newData = [
+      ...data.slice(0,dataIndex),
+      onProcessForTable,
+      ...data.slice(dataIndex+1)
+
+    ];
+
+    try {
+      const response = await axios.put(`${moduleConfigs.server}/${moduleConfigs.name}/${datatransaksi.id_order}`,transaksiForReady);
+     
+      alert(`${moduleConfigs.nameForLabelInfo} berhasil siap di pick up.`);
+      setData(newData);
+    } catch (e) {
+      console.log(`Axios request failed: ${e}`);
+    }
+  };
+
   const params = {
     include: [
       {
@@ -126,13 +196,29 @@ const OrderInventory = () => {
     paramsHCO = {
       ...params,
       where: {
+      or:[ {
         status_order: {
     ilike:moduleConfigs.statusList.approved
     
     }
-      }
+      },
+      {
+        status_order: {
+    ilike:moduleConfigs.statusList.onprocess
+    
+    }
+      },
+      {
+        status_order: {
+    ilike:moduleConfigs.statusList.ready
+    
+    }
+  }
+       ]
       
-    };
+      
+    }
+  };
   }
 
   useEffect(() => {
@@ -186,7 +272,7 @@ const OrderInventory = () => {
     <div className={classes.root}>
       <MyToolbar searchTransactionData={filterDataByNomor} />
       <div className={classes.content}>
-        <MyTable data={data} cancelAction={cancelAction} approveAction={approveAction} />
+        <MyTable data={data} cancelAction={cancelAction} approveAction={approveAction} confirmAction={confirmAction} readyAction={readyAction} />
       </div>
     </div>
   );

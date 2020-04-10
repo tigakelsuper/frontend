@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
 
 
 const MyTable = props => {
-  const { className, data,cancelAction,approveAction, ...rest } = props;
+  const { className, data,cancelAction,approveAction,confirmAction,readyAction, ...rest } = props;
 
   const [modalShow, setModalShow] = React.useState(false);
   const [endpoint, setEndpoint] = React.useState(null);
@@ -151,6 +151,26 @@ const MyTable = props => {
     </Button>
   ))
 
+  const MyConfirmButton = withRouter(({ history,datatransaksi,dataIndex}) => (
+    <Button
+       color="secondary"
+          variant="contained"
+      onClick={() => { confirmAction(history,datatransaksi,dataIndex) }}
+    >
+     Confirm
+    </Button>
+  ))
+
+  const MyReadyButton = withRouter(({ history,datatransaksi,dataIndex}) => (
+    <Button
+       color="secondary"
+          variant="contained"
+      onClick={() => { readyAction(history,datatransaksi,dataIndex) }}
+    >
+     Ready
+    </Button>
+  ))
+
 
   
 
@@ -235,6 +255,20 @@ const MyTable = props => {
                          )}
                          { (isAtasanPegawai(name)  && dt.status_order===moduleConfigs.statusList.submitted)?(
                             <MyButton datatransaksi={dt} dataIndex={dataIndex} />
+                           
+                         ):(
+                          <div></div>
+                         )}
+
+                          { (isHCO(name)  && dt.status_order===moduleConfigs.statusList.approved)?(
+                            <MyConfirmButton datatransaksi={dt} dataIndex={dataIndex} />
+                           
+                         ):(
+                          <div></div>
+                         )}
+
+{ (isHCO(name)  && dt.status_order===moduleConfigs.statusList.onprocess)?(
+                            <MyReadyButton datatransaksi={dt} dataIndex={dataIndex} />
                            
                          ):(
                           <div></div>
