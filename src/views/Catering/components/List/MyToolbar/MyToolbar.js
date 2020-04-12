@@ -6,10 +6,10 @@ import { Button } from '@material-ui/core';
 
 import { SearchInput,RangedDateInput} from 'components';
 import { withRouter } from 'react-router-dom';
-import {moduleConfigs} from './../../../ReservasiMeeting';
-import { useAuth } from "./../../../../../auth/auth";
+import {moduleConfigs} from '../../../../Catering/Catering';
+import { useAuth } from "../../../../../auth/auth";
 import { isHCO } from 'hakakses/hakakses';
-import {getUserInfoFromToken} from './../../../../../mymixin/mymixin';
+import {getUserInfoFromToken} from '../../../../../mymixin/mymixin';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -47,9 +47,9 @@ const MyToolbar = props => {
     <Button
        color="primary"
           variant="contained"
-      onClick={() => { history.push(`/${moduleConfigs.route}/search`) }}
+      onClick={() => { history.push(`/${moduleConfigs.route}/tambah`,{jenis_input:'tambah',dataDefault:{}}) }}
     >
-     Tambah Reservasi
+     Pesan Catering
     </Button>
   ))
 
@@ -80,17 +80,13 @@ const MyToolbar = props => {
          
         </MyButton>
 
-        {showMyAddButton?(
-          <MyAddRuangaMeetingButton></MyAddRuangaMeetingButton>
-        ):(
-          <div></div>
-        )}
+        
       </div>
       <div className={classes.row}>
       <RangedDateInput
-       myLabel="Filter Tanggal Meeting"
+          myLabel="Filter Tanggal Catering"
           className={classes.searchInput}
-          placeholder="Search Pemesanan"
+          placeholder="Search Catering"
           onClick={rangedDataInputOnClick}
         />
         {/* <SearchInput

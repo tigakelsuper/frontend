@@ -21,3 +21,5 @@ export { default as OrderInventorySearch } from './OrderInventorySearch';
 export { default as OrderInventoryApproveForm } from './OrderInventoryApproveForm';
 export { default as StockInventory } from './StockInventory';
 export { default as StockInventoryForm } from './StockInventoryForm';
+export { default as Catering } from './Catering';
+export { default as CateringForm } from './CateringForm';

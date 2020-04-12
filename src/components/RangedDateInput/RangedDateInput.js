@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RangedDateInput = props => {
-  const { className, onClick, style, ...rest } = props;
+  const { className, onClick, style,myLabel, ...rest } = props;
 
   const classes = useStyles();
 
@@ -49,7 +49,7 @@ const RangedDateInput = props => {
       className={clsx(classes.root, className)}
       style={style}
     >
-      <div>Filter Waktu Meeting </div>
+      <div>{myLabel} </div>
       <CalendarTodayIcon className={classes.icon} />
       <TextField
   

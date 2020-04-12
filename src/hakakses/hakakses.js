@@ -8,17 +8,20 @@ const profiles = {
   Jane : {
     avatar:'avatar_12.png',
     nickName:'Awan',
-    position:'HCO Staff'
+    position:'HCO Staff',
+    departemen:'HRD'
   },
   Bob:{
     avatar:'avatar_3.png',
     nickName:'Budi',
-    position:'IT Manager'
+    position:'IT Manager',
+    departemen:'IT'
   },
   John:{
     avatar:'avatar_8.png',
     nickName:'Ujang',
-    position:'IT Staff'
+    position:'IT Staff',
+    departemen:'IT'
   }
 }
 

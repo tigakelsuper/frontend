@@ -28,6 +28,8 @@ import {
   OrderInventoryApproveForm as OrderInventoryApproveFormView,
   StockInventory as StockInventoryView,
   StockInventoryForm as StockInventoryFormView,
+  Catering as CateringView,
+  CateringForm as CateringFormView,
 } from './views';
 
 import PrivateRoute from './auth/PrivateRoute';
@@ -141,12 +143,7 @@ const Routes = () => {
       />
      
 
-      <PrivateRouteWithLayout
-        component={TypographyView}
-        exact
-        layout={MainLayout}
-        path="/catering"
-      />
+     
       <PrivateRouteWithLayout
         component={PemesananMobilView}
         exact
@@ -177,6 +174,26 @@ const Routes = () => {
         layout={MainLayout}
         path="/stock-inventory/view"
       />
+
+<PrivateRouteWithLayout
+        component={CateringView}
+        exact
+        layout={MainLayout}
+        path="/catering"
+      />
+       <PrivateRouteWithLayout
+        component={CateringFormView}
+        exact
+        layout={MainLayout}
+        path="/catering/tambah"
+      />
+      <PrivateRouteWithLayout
+        component={CateringFormView}
+        exact
+        layout={MainLayout}
+        path="/catering/view"
+      />
+
       <PrivateRouteWithLayout
         component={AccountView}
         exact
