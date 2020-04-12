@@ -6,7 +6,7 @@ import { Button } from '@material-ui/core';
 
 import { TextInput } from 'components';
 import { withRouter } from 'react-router-dom';
-import {moduleConfigs} from '../../../OrderInventory';
+import {moduleConfigs} from '../../../../StockInventory/StockInventory';
 import { useAuth } from "../../../../../auth/auth";
 import { isHCO } from 'hakakses/hakakses';
 import {getUserInfoFromToken} from '../../../../../mymixin/mymixin';
@@ -47,19 +47,9 @@ const MyToolbar = props => {
     <Button
        color="primary"
           variant="contained"
-      onClick={() => { history.push(`/${moduleConfigs.route}/search`) }}
+      onClick={() => { history.push(`/${moduleConfigs.route}/tambah`,{jenis_input:'tambah',dataDefault:{}}) }}
     >
-     Buat Permintaan
-    </Button>
-  ))
-
-  const MyAddRuangaMeetingButton = withRouter(({ history }) => (
-    <Button
-       color="primary"
-          variant="contained"
-      onClick={() => { history.push(`/stock-inventory`) }}
-    >
-      Stock Inventory
+     Input Stock
     </Button>
   ))
 
@@ -80,19 +70,14 @@ const MyToolbar = props => {
          
         </MyButton>
 
-        {showMyAddButton?(
-          <MyAddRuangaMeetingButton></MyAddRuangaMeetingButton>
-        ):(
-          <div></div>
-        )}
+       
       </div>
       <div className={classes.row}>
       <TextInput
           className={classes.searchInput}
           searchOnClick={searchTransactionData}
-          placeHolderText="Nomor Permintaan"
+          placeHolderText="Kode Barang"
         />
-      
       </div>
     </div>
   );

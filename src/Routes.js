@@ -26,6 +26,8 @@ import {
   OrderInventoryForm as OrderInventoryFormView,
   OrderInventorySearch as OrderInventorySearchView,
   OrderInventoryApproveForm as OrderInventoryApproveFormView,
+  StockInventory as StockInventoryView,
+  StockInventoryForm as StockInventoryFormView,
 } from './views';
 
 import PrivateRoute from './auth/PrivateRoute';
@@ -156,6 +158,24 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/pemesanan-mobil/tambah"
+      />
+      <PrivateRouteWithLayout
+        component={StockInventoryView}
+        exact
+        layout={MainLayout}
+        path="/stock-inventory"
+      />
+       <PrivateRouteWithLayout
+        component={StockInventoryFormView}
+        exact
+        layout={MainLayout}
+        path="/stock-inventory/tambah"
+      />
+        <PrivateRouteWithLayout
+        component={StockInventoryFormView}
+        exact
+        layout={MainLayout}
+        path="/stock-inventory/view"
       />
       <PrivateRouteWithLayout
         component={AccountView}
