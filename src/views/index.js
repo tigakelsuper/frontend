@@ -23,3 +23,5 @@ export { default as StockInventory } from './StockInventory';
 export { default as StockInventoryForm } from './StockInventoryForm';
 export { default as Catering } from './Catering';
 export { default as CateringForm } from './CateringForm';
+export { default as User } from './User';
+export { default as UserForm } from './UserForm';

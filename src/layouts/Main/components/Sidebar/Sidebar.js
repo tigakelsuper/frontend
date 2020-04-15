@@ -16,6 +16,9 @@ import FastfoodIcon from '@material-ui/icons/Fastfood';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import LayersIcon from '@material-ui/icons/Layers';
+import {isAdmin,getModuleAccess,getProfile} from './../../../../hakakses/hakakses';
+import { useAuth } from "./../../../../auth/auth";
+import {getUserInfoFromToken} from './../../../../mymixin/mymixin';
 
 
 
@@ -47,6 +50,8 @@ const useStyles = makeStyles(theme => ({
 const Sidebar = props => {
   const { open, variant, onClose, className, ...rest } = props;
 
+  const { authTokens } = useAuth();
+
   const classes = useStyles();
 
   const pages = [
@@ -54,6 +59,12 @@ const Sidebar = props => {
       title: 'Dashboard',
       href: '/dashboard',
       icon: <DashboardIcon />
+
+    },
+    {
+      title: 'User',
+      href: '/user',
+      icon: <PeopleIcon />
     },
     {
       title: 'Permintaan Inventaris',
@@ -82,6 +93,17 @@ const Sidebar = props => {
     }
   ];
 
+  const userInfo = getUserInfoFromToken(authTokens);
+  const {name} = userInfo;
+  const profile = getProfile(name);
+  const {role} = profile;
+  const moduleAccess = getModuleAccess(role);
+
+  const filteredPages = pages.filter(page=> moduleAccess.includes(page.href));
+
+
+ 
+
   return (
     <Drawer
       anchor="left"
@@ -98,7 +120,7 @@ const Sidebar = props => {
         <Divider className={classes.divider} />
         <SidebarNav
           className={classes.nav}
-          pages={pages}
+          pages={filteredPages}
         />
         <UpgradePlan />
       </div>

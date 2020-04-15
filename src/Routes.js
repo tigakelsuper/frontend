@@ -30,6 +30,8 @@ import {
   StockInventoryForm as StockInventoryFormView,
   Catering as CateringView,
   CateringForm as CateringFormView,
+  User as UserView,
+  UserForm as UserFormView,
 } from './views';
 
 import PrivateRoute from './auth/PrivateRoute';
@@ -192,6 +194,26 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/catering/view"
+      />
+
+<PrivateRouteWithLayout
+        component={UserView}
+        exact
+        layout={MainLayout}
+        path="/user"
+      />
+       <PrivateRouteWithLayout
+        component={UserFormView}
+        exact
+        layout={MainLayout}
+        path="/user/tambah"
+      />
+
+<PrivateRouteWithLayout
+        component={UserFormView}
+        exact
+        layout={MainLayout}
+        path="/user/view"
       />
 
       <PrivateRouteWithLayout
