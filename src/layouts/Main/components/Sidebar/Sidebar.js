@@ -90,6 +90,11 @@ const Sidebar = props => {
       title: 'Laporan',
       href: '/laporan',
       icon: <AssessmentIcon />
+    },
+    {
+      title: 'Laporan Summary',
+      href: '/laporan-summary',
+      icon: <AssessmentIcon />
     }
   ];
 

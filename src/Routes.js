@@ -32,6 +32,9 @@ import {
   CateringForm as CateringFormView,
   User as UserView,
   UserForm as UserFormView,
+  LaporanSummary as LaporanSummaryView,
+  Laporan as LaporanView,
+  LaporanInventaris as LaporanInventarisView,
 } from './views';
 
 import PrivateRoute from './auth/PrivateRoute';
@@ -216,12 +219,48 @@ const Routes = () => {
         path="/user/view"
       />
 
+<PrivateRouteWithLayout
+        component={LaporanSummaryView}
+        exact
+        layout={MainLayout}
+        path="/laporan-summary"
+      />
+
       <PrivateRouteWithLayout
-        component={AccountView}
+        component={LaporanView}
         exact
         layout={MainLayout}
         path="/laporan"
       />
+       <PrivateRouteWithLayout
+        component={LaporanInventarisView}
+        exact
+        layout={MainLayout}
+        path="/laporan/inventaris"
+      />
+
+<PrivateRouteWithLayout
+        component={LaporanView}
+        exact
+        layout={MainLayout}
+        path="/laporan/ruang-meeting"
+      />
+
+<PrivateRouteWithLayout
+        component={LaporanView}
+        exact
+        layout={MainLayout}
+        path="/laporan/catering"
+      />
+
+<PrivateRouteWithLayout
+        component={LaporanView}
+        exact
+        layout={MainLayout}
+        path="/laporan/pemesanan-mobil"
+      />
+
+
       <RouteWithLayout
         component={SettingsView}
         exact

@@ -1,15 +1,17 @@
 const roles = {
   pegawai : ['John'],
-  atasanPegawai:['Bob'],
+  atasanPegawai:['Bob','Scarlet'],
   hco: ['Jane'],
-  admin: ['Hatori']
+  admin: ['Hatori'],
+  atasanHCO:['Scarlet']
 }
 
 const moduleAccess = {
   pegawai: ['/dashboard','/order-inventory','/reservasi-ruang-meeting','/catering','/pemesanan-mobil'],
-  atasanPegawai: ['/dashboard','/order-inventory','/reservasi-ruang-meeting','/catering','/pemesanan-mobil','/laporan'],
-  hco: ['/dashboard','/order-inventory','/reservasi-ruang-meeting','/catering','/pemesanan-mobil'],
-  admin: ['/dashboard','/order-inventory','/reservasi-ruang-meeting','/catering','/pemesanan-mobil','/user']
+  atasanPegawai: ['/dashboard','/order-inventory','/reservasi-ruang-meeting','/catering','/pemesanan-mobil'],
+  hco: ['/dashboard','/order-inventory','/reservasi-ruang-meeting','/catering','/pemesanan-mobil','/laporan'],
+  admin: ['/dashboard','/order-inventory','/reservasi-ruang-meeting','/catering','/pemesanan-mobil','/user'],
+  atasanHCO: ['/dashboard','/order-inventory','/reservasi-ruang-meeting','/catering','/pemesanan-mobil','/laporan-summary']
 }
 
 const profiles = {
@@ -40,6 +42,13 @@ const profiles = {
     position:'Admin',
     departemen:'IT',
     role:'admin'
+  },
+  Scarlet:{
+    avatar:'avatar_2.png',
+    nickName:'Scarlet',
+    position:'HCO Manager',
+    departemen:'HCO',
+    role:'atasanHCO'
   }
 }
 

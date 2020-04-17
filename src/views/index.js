@@ -25,3 +25,7 @@ export { default as Catering } from './Catering';
 export { default as CateringForm } from './CateringForm';
 export { default as User } from './User';
 export { default as UserForm } from './UserForm';
+export { default as LaporanSummary } from './LaporanSummary';
+export { default as Laporan } from './Laporan';
+export { default as LaporanInventaris } from './LaporanInventaris';
+
