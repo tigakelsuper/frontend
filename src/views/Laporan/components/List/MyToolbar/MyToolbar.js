@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button } from '@material-ui/core';
 
-import { SearchInput } from 'components';
+import { RangedDateInput } from 'components';
 import { withRouter } from 'react-router-dom';
 import {moduleConfigs} from '../../../../Laporan/Laporan';
 import { useAuth } from "./../../../../../auth/auth";
@@ -29,12 +29,13 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1)
   },
   searchInput: {
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
+    marginBottom:'40px'
   }
 }));
 
 const MyToolbar = props => {
-  const { className,history, ...rest } = props;
+  const { className,history,rangedDataInputOnClick, ...rest } = props;
 
   const { authTokens } = useAuth();
 
@@ -64,20 +65,23 @@ const MyToolbar = props => {
     >
       <div className={classes.row}>
         <span className={classes.spacer} />
-       
+{/*        
         <MyButton route='inventaris' text='Permintaan Inventaris' />
         <MyButton route='ruang-meeting' text='Ruang Meeting' />
         <MyButton route='catering' text='Catering' />
         <MyButton route='pemesanan-mobil' text='Pemesanaan Mobil' />
-        
+         */}
 
        
       </div>
       <div className={classes.row}>
-        {/* <SearchInput
+      <RangedDateInput
+          myLabel="Date Range"
           className={classes.searchInput}
-          placeholder="Search Ruang Meeting"
-        /> */}
+          placeholder="Search Catering"
+          buttonLabel = "Show Report"
+          onClick={rangedDataInputOnClick}
+        />
       </div>
     </div>
   );

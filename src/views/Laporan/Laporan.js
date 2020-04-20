@@ -1,8 +1,10 @@
 import React, { useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/styles';
 
-import { MyToolbar, MyTable } from './components';
+import { MyToolbar, MyTable, LatestOrders} from './components';
 import axios from 'axios';
+import { Grid } from '@material-ui/core';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -98,13 +100,27 @@ const Laporan = () => {
     }
   };
 
+  const params = {
+    include: [
+      {
+        relation: "user"
+      
+      },
+   {
+        relation: "inventory"
+      }
+    ]
+  };
+
   useEffect(() => {
+
+    
  
 
     const fetchData = async () => {
       const result = await axios({
         method: "get",
-        url: `${moduleConfigs.server}/${moduleConfigs.name}`,
+        url: `${moduleConfigs.server}/order-inventories?filter=${JSON.stringify(params)}`,
        
       });
       setData(result.data);
@@ -112,13 +128,57 @@ const Laporan = () => {
     fetchData();
   }, []);
 
+  const filterDataByDate = async (dataFilter) => {
+    
+
+    let fixParams = params;
+
+    if(dataFilter.startDate && dataFilter.endDate){
+      fixParams = {
+        ...params,
+        where: {
+          and:[ { tgl_input: {
+        gt:new Date(moment(dataFilter.startDate).subtract(1,'seconds').format())
+       }},
+       { tgl_input: {
+        lt:new Date(moment(dataFilter.endDate).add(1,"days").subtract(1,'seconds').format())
+       }}
+       ]
+          
+       }
+      }
+    }
+
+    const result = await axios({
+      method: "get",
+      url: `${moduleConfigs.server}/order-inventories?filter=${JSON.stringify(fixParams)}`,
+     
+    });
+    setData(result.data);
+  };
+
   
 
   return (
     <div className={classes.root}>
-      <MyToolbar />
+      <MyToolbar rangedDataInputOnClick={filterDataByDate} />
       <div className={classes.content}>
-        <MyTable data={data} cancelAction={cancelAction} approveAction={approveAction} />
+      <Grid
+        container
+        spacing={4}
+      >
+       
+        <Grid
+          item
+          lg={12}
+          md={12}
+          xl={3}
+          xs={12}
+        >
+            <LatestOrders data={data} />
+        </Grid>
+        
+      </Grid>
       </div>
     </div>
   );

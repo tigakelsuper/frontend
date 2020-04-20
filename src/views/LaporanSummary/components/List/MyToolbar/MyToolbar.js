@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button } from '@material-ui/core';
 
-import { SearchInput } from 'components';
+import { RangedDateInput } from 'components';
 import { withRouter } from 'react-router-dom';
 import {moduleConfigs} from '../../../../Laporan/Laporan';
 import { useAuth } from "./../../../../../auth/auth";
@@ -30,11 +30,18 @@ const useStyles = makeStyles(theme => ({
   },
   searchInput: {
     marginRight: theme.spacing(1)
+  },
+  rangeDate:{
+    height: '42px',
+    display: 'flex',
+    alignItems: 'center',
+    //marginTop: theme.spacing(1),
+    marginBottom:'40px'
   }
 }));
 
 const MyToolbar = props => {
-  const { className,history, ...rest } = props;
+  const { className,history,rangedDataInputOnClick, ...rest } = props;
 
   const { authTokens } = useAuth();
 
@@ -73,11 +80,18 @@ const MyToolbar = props => {
 
        
       </div>
-      <div className={classes.row}>
+      <div className={classes.rangeDate}>
         {/* <SearchInput
           className={classes.searchInput}
           placeholder="Search Ruang Meeting"
         /> */}
+        <RangedDateInput
+          myLabel="Date Range"
+          className={classes.searchInput}
+          placeholder="Search Catering"
+          buttonLabel = "Show Report"
+          onClick={rangedDataInputOnClick}
+        />
       </div>
     </div>
   );

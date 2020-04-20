@@ -15,6 +15,9 @@ import LaptopMacIcon from '@material-ui/icons/LaptopMac';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import TabletMacIcon from '@material-ui/icons/TabletMac';
+import BookIcon from '@material-ui/icons/Book';
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
+import LocalDrinkIcon from '@material-ui/icons/LocalDrink';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UsersByDevice = props => {
-  const { className,title, ...rest } = props;
+  const { className,title,graphData, ...rest } = props;
 
   const classes = useStyles();
   const theme = useTheme();
@@ -47,18 +50,20 @@ const UsersByDevice = props => {
   const data = {
     datasets: [
       {
-        data: [63, 15, 22],
+        data: [graphData.satu.percent, graphData.dua.percent, graphData.tiga.percent,graphData.empat.percent,graphData.lima.percent],
         backgroundColor: [
           theme.palette.primary.main,
           theme.palette.error.main,
-          theme.palette.warning.main
+          theme.palette.warning.main,
+          theme.palette.success.main,
+          theme.palette.info.main
         ],
         borderWidth: 8,
         borderColor: theme.palette.white,
         hoverBorderColor: theme.palette.white
       }
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
+    labels: ['ATK', 'Seragam', 'Tumbler','Empat','Lima']
   };
 
   const options = {
@@ -85,21 +90,33 @@ const UsersByDevice = props => {
 
   const devices = [
     {
-      title: 'Desktop',
-      value: '63',
-      icon: <LaptopMacIcon />,
+      title: 'ATK',
+      value: graphData.satu.percent,
+      icon: <BookIcon />,
       color: theme.palette.primary.main
     },
     {
-      title: 'Tablet',
-      value: '15',
-      icon: <TabletMacIcon />,
+      title: 'Seragam',
+      value: graphData.dua.percent,
+      icon: <EmojiPeopleIcon />,
       color: theme.palette.error.main
     },
     {
-      title: 'Mobile',
-      value: '23',
-      icon: <PhoneIphoneIcon />,
+      title: 'Tumbler',
+      value: graphData.tiga.percent,
+      icon: <LocalDrinkIcon />,
+      color: theme.palette.warning.main
+    },
+    {
+      title: 'Meja',
+      value: graphData.empat.percent,
+      icon: <LocalDrinkIcon />,
+      color: theme.palette.warning.main
+    },
+    {
+      title: 'Komputer',
+      value: graphData.lima.percent,
+      icon: <LocalDrinkIcon />,
       color: theme.palette.warning.main
     }
   ];

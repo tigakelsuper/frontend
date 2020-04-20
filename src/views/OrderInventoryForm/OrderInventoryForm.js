@@ -47,7 +47,8 @@ const userInfo = decode(token);
         nomor_order:nomor,
         jumlah:parseInt(values.jumlah),
         userId:parseInt(userInfo.id),
-        status_order:moduleConfigs.statusList.submitted
+        status_order:moduleConfigs.statusList.submitted,
+        tgl_input: moment().format()
       };
 
       if(jenisInput==='tambah'){

@@ -39,7 +39,24 @@ const LaporanSummary = () => {
   const classes = useStyles();
 
   const [data,setData] = useState([]);
+  const [dataInventori,setDataInventori] = useState([]);
   const [dataSupir,setDataSupir] = useState([]);
+
+  const gdInventoryIn = {
+    satu:{percent:15},
+    dua:{percent:20},
+    tiga:{percent:5},
+    empat:{percent:50},
+    lima:{percent:10}
+  }
+
+  const gdInventoryOut = {
+    satu:{percent:30},
+    dua:{percent:12},
+    tiga:{percent:40},
+    empat:{percent:6},
+    lima:{percent:12}
+  }
 
   const approveAction = async (history,datatransaksi,dataIndex) =>  {
 
@@ -112,12 +129,24 @@ const LaporanSummary = () => {
     const fetchData = async () => {
       const result = await axios({
         method: "get",
-        url: `${moduleConfigs.server}/${moduleConfigs.name}`,
+        url: `${moduleConfigs.server}/order-inventories`,
        
       });
       setData(result.data);
+    
     };
     fetchData();
+
+    const fetchDataInventory = async () => {
+      const result = await axios({
+        method: "get",
+        url: `${moduleConfigs.server}/inventories`,
+       
+      });
+      setDataInventori(result.data);
+    
+    };
+    fetchDataInventory();
   }, []);
 
   
@@ -137,7 +166,9 @@ const LaporanSummary = () => {
           xl={3}
           xs={12}
         >
-          <Budget />
+           {/* Total Transaction  */}
+          <Budget total={data.length} /> 
+         
         </Grid>
         <Grid
           item
@@ -146,7 +177,8 @@ const LaporanSummary = () => {
           xl={3}
           xs={12}
         >
-          <TotalUsers />
+          {/* Inventori IN */}
+          <TotalUsers total={dataInventori.length} />
         </Grid>
         <Grid
           item
@@ -155,7 +187,8 @@ const LaporanSummary = () => {
           xl={3}
           xs={12}
         >
-          <TasksProgress />
+           {/* Inventori Out */}
+          <TasksProgress total={dataInventori.length} />
         </Grid>
        
         <Grid
@@ -174,7 +207,7 @@ const LaporanSummary = () => {
           xl={3}
           xs={12}
         >
-          <UsersByDevice title="Inventory In" />
+          <UsersByDevice title="Inventory In" graphData={gdInventoryIn} />
         </Grid>
         <Grid
           item
@@ -183,7 +216,7 @@ const LaporanSummary = () => {
           xl={3}
           xs={12}
         >
-          <UsersByDevice  title="Inventory Out"  />
+          <UsersByDevice  title="Inventory Out" graphData={gdInventoryOut}  />
         </Grid>
         
       </Grid>

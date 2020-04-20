@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TotalUsers = props => {
-  const { className, ...rest } = props;
+  const { className,total, ...rest } = props;
 
   const classes = useStyles();
 
@@ -65,7 +65,7 @@ const TotalUsers = props => {
             >
               INVENTORY IN
             </Typography>
-            <Typography variant="h3">1,600</Typography>
+  <Typography variant="h3">2.540</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>

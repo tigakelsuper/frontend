@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TasksProgress = props => {
-  const { className, ...rest } = props;
+  const { className,total, ...rest } = props;
 
   const classes = useStyles();
 
@@ -63,7 +63,7 @@ const TasksProgress = props => {
             >
               INVENTORY OUT
             </Typography>
-            <Typography variant="h3">75</Typography>
+  <Typography variant="h3">319</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>

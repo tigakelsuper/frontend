@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RangedDateInput = props => {
-  const { className, onClick, style,myLabel, ...rest } = props;
+  const { className, onClick, style,myLabel,buttonLabel, ...rest } = props;
 
   const classes = useStyles();
 
@@ -81,7 +81,7 @@ const RangedDateInput = props => {
           variant="contained"
       onClick={()=>onClick(values)}
     >
-      Search
+      {buttonLabel?buttonLabel:'Search'}
     </Button>
     </Paper>
   );

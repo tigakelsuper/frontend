@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Budget = props => {
-  const { className, ...rest } = props;
+  const { className,total, ...rest } = props;
 
   const classes = useStyles();
 
@@ -64,7 +64,7 @@ const Budget = props => {
             >
               TOTAL TRANSACTION
             </Typography>
-            <Typography variant="h3">24,000</Typography>
+  <Typography variant="h3">13.400</Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
