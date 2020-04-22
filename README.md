@@ -9,9 +9,14 @@ Sebuah tugas AKPSI
 git clone https://github.com/tigakelsuper/frontend.git
 ```
 
+2. Change directory to the project root
+
+```
+cd frontend
+```
 
 
-2. Install the dependecies
+3. Install the dependecies
 
 ```
 npm install
@@ -19,8 +24,7 @@ npm install
 
 
 
-
-3. Run the app
+4. Run the app
 
 ```
 npm start
